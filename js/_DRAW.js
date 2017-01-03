@@ -9,13 +9,26 @@
 
 
 function drawBG() {
-    cxa.globalAlpha = 1;
-    color.fill(cxa,bgCols[0]);
-    cxa.fillRect(0,0,fullX,fullY);
+    ctx[0].globalAlpha = 1;
+    color.fill(ctx[0],bgCols[0]);
+    ctx[0].fillRect(0,0,fullX,fullY);
 }
 
 
+//-------------------------------------------------------------------------------------------
+//  PAINT
+//-------------------------------------------------------------------------------------------
 
+
+function drawStrokes() {
+    ctx[1].globalAlpha = 1;
+    color.fillRGBA(ctx[1],255,255,255,1);
+    strokes.draw();
+
+    ctx[1].globalAlpha = 0.01;
+    color.fill(ctx[1],bgFill);
+    ctx[1].fillRect(0,0,fullX,fullY);
+}
 
 
 //-------------------------------------------------------------------------------------------
@@ -31,17 +44,42 @@ function drawScene() {
     var size = 20;
     var u = units;
 
-    color.fill(cxa,bgCols[1]);
-    cxa.fillRect(dx - (size * units), dy - (size * units), 2 * (size * units), 2 * (size * units));
+    ctx[0].drawImage(canvas[1],0,0);
+
+    color.fill(ctx[0],bgCols[1]);
+    //cxa.fillRect(dx - (size * units), dy - (size * units), 2 * (size * units), 2 * (size * units));
 
 
-    color.fillRGBA(cxa,255,255,255,1);
+    color.fillRGBA(ctx[0],255,255,255,1);
 
-    cxa.textAlign = 'center';
-    cxa.font = "100 " + headerType + "px Cabin";
-    cxa.fillText(decimaRound(audioLevel,1),dx,dy);
-    cxa.fillText(decimaRound(audioMin,1),dx - (300*u),dy);
-    cxa.fillText(decimaRound(audioMax,1),dx + (300*u),dy);
+    ctx[0].textAlign = 'center';
+    ctx[0].font = "100 " + headerType + "px Cabin";
+    //cxa.fillText(decimaRound(audioLevel,1),dx,dy);
+    //cxa.fillText(decimaRound(audioMin,1),dx - (300*u),dy);
+    //cxa.fillText(decimaRound(audioMax,1),dx + (300*u),dy);
+
+    /*cxa.beginPath();
+    cxa.moveTo(dx,dy);
+    cxa.arc(dx,dy,10*(peakStrength*10)*u,0,TAU);
+    cxa.closePath();
+    cxa.fill();*/
+
+
+    /*var x = dx - ((4*40)*u);
+    var y = dy + (120*u);
+    for (var i=0; i<frequencies.length; i++) {
+        color.fillRGBA(cxa,255,255,255,1);
+        cxa.fillRect(x + ((40*u)*i), y, 38*u, -(frequencies[i]*0.3)*u);
+        color.fill(cxa,bgCols[1]);
+        cxa.fillRect(x + ((40*u)*i), y - ((peaks[i]*0.3)*u), 38*u, u);
+    }
+
+    x = dx - ((6*40)*u);
+    cxa.fillRect(x, y, 38*u, -(meter*100)*u);*/
+
+    painter.draw();
+
+    pips.draw();
 }
 
 

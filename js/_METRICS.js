@@ -14,10 +14,13 @@ function metrics() {
     const height = window.innerHeight;
     const ratio = getPixelRatio();
 
-    canvas.width  = width * ratio;
-    canvas.height = height * ratio;
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
+
+    for (var i=0; i<canvas.length; i++) {
+        canvas[i].width  = width * ratio;
+        canvas[i].height = height * ratio;
+        canvas[i].style.width = width + "px";
+        canvas[i].style.height = height + "px";
+    }
 
     console.log(width);
     console.log(ratio);
@@ -74,13 +77,13 @@ function metrics() {
 
 
 function getPixelRatio() {
-    var ctx = cxa;
+    var cntx = ctx[0];
     var dpr = window.devicePixelRatio || 1;
-    var bsr = ctx.webkitBackingStorePixelRatio ||
-        ctx.mozBackingStorePixelRatio ||
-        ctx.msBackingStorePixelRatio ||
-        ctx.oBackingStorePixelRatio ||
-        ctx.backingStorePixelRatio || 1;
+    var bsr = cntx.webkitBackingStorePixelRatio ||
+        cntx.mozBackingStorePixelRatio ||
+        cntx.msBackingStorePixelRatio ||
+        cntx.oBackingStorePixelRatio ||
+        cntx.backingStorePixelRatio || 1;
 
     return dpr / bsr;
 }

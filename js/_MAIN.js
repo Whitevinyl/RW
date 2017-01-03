@@ -5,8 +5,8 @@
 
 
 // INIT //
-var canvas;
-var cxa;
+var canvas = [];
+var ctx = [];
 var TWEEN;
 
 
@@ -37,8 +37,12 @@ var mouseIsDown = false;
 
 
 // COLORS //
-var bgCols = [new RGBA(0,79,66,1),new RGBA(255,236,88,1)];
+var bgCols = [new RGBA(6,10,12,1),new RGBA(255,236,88,1)];
+var bgFill = new RGBA(30,10,20,1);
 
+var pips;
+var painter;
+var strokes;
 
 
 //-------------------------------------------------------------------------------------------
@@ -50,11 +54,24 @@ function init() {
 
     ////////////// SETUP CANVAS ////////////
 
-    canvas = document.getElementById("cnvs");
-    setupInteraction(canvas);
-    cxa = canvas.getContext("2d");
-    cxa.mozImageSmoothingEnabled = false;
-    cxa.imageSmoothingEnabled = false;
+    /*canvas[0] = document.getElementById("cnvs0");
+    setupInteraction(canvas[0]);
+    ctx[0] = canvas[0].getContext("2d");
+    ctx[0].mozImageSmoothingEnabled = false;
+    ctx[0].imageSmoothingEnabled = false;*/
+    for (var i=0; i<2; i++) {
+        var cnvs = document.getElementById("cnvs"+i);
+        var cntx = cnvs.getContext("2d");
+        cntx.mozImageSmoothingEnabled = false;
+        cntx.imageSmoothingEnabled = false;
+
+        canvas.push(cnvs);
+        ctx.push(cntx);
+    }
+    setupInteraction(canvas[0]);
+
+    pips = new Pip();
+    pips.setup();
 
 
     // INITIALISE THINGS //
@@ -63,6 +80,12 @@ function init() {
 
     // SET CANVAS & DRAWING POSITIONS //
     metrics();
+
+    painter = new Painter();
+    painter.setup();
+
+    strokes = new Strokes();
+    strokes.setup();
 
     // DONE //
     draw();
@@ -81,6 +104,7 @@ function init() {
 function draw() {
     update();
     drawBG();
+    drawStrokes();
     drawScene();
 
     requestAnimationFrame(draw);
@@ -96,6 +120,11 @@ function update() {
     if (TWEEN) {
         TWEEN.update();
     }
+
+    pips.update();
+
+    painter.walk();
+    strokes.update();
 
     monitorAudio();
 }
