@@ -53,12 +53,6 @@ var strokes;
 function init() {
 
     ////////////// SETUP CANVAS ////////////
-
-    /*canvas[0] = document.getElementById("cnvs0");
-    setupInteraction(canvas[0]);
-    ctx[0] = canvas[0].getContext("2d");
-    ctx[0].mozImageSmoothingEnabled = false;
-    ctx[0].imageSmoothingEnabled = false;*/
     for (var i=0; i<2; i++) {
         var cnvs = document.getElementById("cnvs"+i);
         var cntx = cnvs.getContext("2d");
@@ -68,18 +62,21 @@ function init() {
         canvas.push(cnvs);
         ctx.push(cntx);
     }
-    setupInteraction(canvas[0]);
-
-    pips = new Pip();
-    pips.setup();
 
 
     // INITIALISE THINGS //
+    setupInteraction(canvas[0]);
     setupAudio();
+
 
 
     // SET CANVAS & DRAWING POSITIONS //
     metrics();
+
+    setupDrawing();
+
+    pips = new Pip();
+    pips.setup();
 
     painter = new Painter();
     painter.setup();

@@ -92,13 +92,14 @@ function monitorAudio() {
             var h2 = 1 + (frequencies[9]/100);
             var h3 = 1 + (frequencies[7]/100);
             var g = (m*d*h*h2*h3)*10;
+            var g1 = (m*d*h)*10;
 
             if (g>1) {
                 painter.addVelocity(g/4000);
-                pips.burst(g);
+                //pips.burst(g);
             }
-            if (g>3) {
-                painter.burst(g/15);
+            if (g1>3) {
+                painter.burst(g1/15);
             }
         }
 

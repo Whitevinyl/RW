@@ -1,6 +1,10 @@
 
 
-
+function setupDrawing() {
+    ctx[1].globalAlpha = 1;
+    color.fill(ctx[1],bgFill);
+    ctx[1].fillRect(0,0,fullX,fullY);
+}
 
 
 //-------------------------------------------------------------------------------------------
@@ -23,9 +27,10 @@ function drawBG() {
 function drawStrokes() {
     ctx[1].globalAlpha = 1;
     color.fillRGBA(ctx[1],255,255,255,1);
+    color.strokeRGBA(ctx[1],255,255,255,1);
     strokes.draw();
 
-    ctx[1].globalAlpha = 0.01;
+    ctx[1].globalAlpha = 0.05;
     color.fill(ctx[1],bgFill);
     ctx[1].fillRect(0,0,fullX,fullY);
 }

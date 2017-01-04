@@ -44,5 +44,5 @@ proto.burst = function(size) {
 proto.draw = function() {
     var x = this.position.x - (5*units);
     var y = this.position.y - (5*units);
-    ctx[0].fillRect(x,y,10*units,10*units);
+    //ctx[0].fillRect(x,y,10*units,10*units);
 };

@@ -54,6 +54,9 @@ function Point( x, y ) {
     this.x = x || 0;
     this.y = y || 0;
 }
+Point.prototype.clone = function() {
+    return new Point(this.x,this.y);
+};
 
 function Point3D( x, y, z ) {
     this.x = x || 0;
@@ -65,6 +68,11 @@ function Vector( x, y ) {
     this.x = x || 0;
     this.y = y || 0;
 }
+Vector.prototype.normalise = function() {
+    var m = 1/Math.max(this.x,this.y);
+    this.x *= m;
+    this.y *= m;
+};
 
 function Size( w, h ) {
     this.w = w || 0;
