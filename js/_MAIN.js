@@ -3,7 +3,6 @@
  */
 
 
-
 // INIT //
 var canvas = [];
 var ctx = [];
@@ -37,8 +36,11 @@ var mouseIsDown = false;
 
 
 // COLORS //
-var bgCols = [new RGBA(6,10,12,1),new RGBA(255,236,88,1)];
+var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
 var bgFill = new RGBA(30,10,20,1);
+var textCol = new RGBA(255,255,255,1);
+var lightCol = new RGBA(255,255,255,1);
+var darkCol = new RGBA(5,5,5,1);
 
 var pips;
 var painter;
@@ -53,7 +55,7 @@ var strokes;
 function init() {
 
     ////////////// SETUP CANVAS ////////////
-    for (var i=0; i<2; i++) {
+    for (var i=0; i<3; i++) {
         var cnvs = document.getElementById("cnvs"+i);
         var cntx = cnvs.getContext("2d");
         cntx.mozImageSmoothingEnabled = false;
@@ -73,7 +75,7 @@ function init() {
     // SET CANVAS & DRAWING POSITIONS //
     metrics();
 
-    setupDrawing();
+
 
     pips = new Pip();
     pips.setup();
@@ -83,6 +85,8 @@ function init() {
 
     strokes = new Strokes();
     strokes.setup();
+
+    setupDrawing();
 
     // DONE //
     draw();

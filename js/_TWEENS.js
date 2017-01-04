@@ -1,6 +1,20 @@
-/**
- * Created by luketwyman on 05/11/2014.
- */
+
+
+function alphaTo(obj,d,t) {
+    t = t || 1;
+
+    var cPos = {a: obj.a };
+
+    var tween = new TWEEN.Tween(cPos);
+    tween.to({ a: d  }, t*1000);
+    tween.start();
+
+    tween.onUpdate(function() {
+        obj.a = this.a;
+    });
+
+    tween.easing( TWEEN.Easing.Quadratic.InOut );
+}
 
 
 

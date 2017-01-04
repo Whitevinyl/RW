@@ -48,7 +48,7 @@ function setupAudio() {
 // WHEN AUDIO HAS LOADED //
 function audioLoaded() {
     audioHasLoaded = true;
-    startAudio();
+    //startAudio();
 }
 
 

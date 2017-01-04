@@ -68,10 +68,16 @@ function Vector( x, y ) {
     this.x = x || 0;
     this.y = y || 0;
 }
+Vector.prototype.magnitude = function() {
+    return Math.sqrt((this.x*this.x) + (this.y*this.y));
+};
+
 Vector.prototype.normalise = function() {
-    var m = 1/Math.max(this.x,this.y);
-    this.x *= m;
-    this.y *= m;
+    var m = this.magnitude();
+    if (m>0) {
+        this.x /= m;
+        this.y /= m;
+    }
 };
 
 function Size( w, h ) {
@@ -81,5 +87,5 @@ function Size( w, h ) {
 
 
 function Alpha(a) {
-    this.A = a;
+    this.a = a || 0;
 }

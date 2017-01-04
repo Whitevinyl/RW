@@ -14,6 +14,7 @@ proto.burst = function(position,vector,size) {
     var n = tombola.range(4,10);
     var r = 6*units;
     var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
+    size *= 2;
 
     for (var i=0; i<n; i++) {
         var v2 = new Vector(v.x + tombola.rangeFloat(-0.15,0.15), v.y + tombola.rangeFloat(-0.15,0.15));
@@ -49,7 +50,7 @@ function Brush(position,vector,size,parent) {
     this.vector = vector;
     this.size = size;
     this.parent = parent;
-    this.life = tombola.range(10,50);
+    this.life = tombola.range(10,60);
     this.scale = tombola.rangeFloat(0.2,2);
 }
 proto = Brush.prototype;

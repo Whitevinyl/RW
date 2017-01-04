@@ -3,7 +3,7 @@
  */
 
 WebFontConfig = {
-    google: { families: [ 'Cabin::latin' ] }
+    google: { families: [ 'PT+Serif::latin' ] }
 };
 (function() {
     var wf = document.createElement('script');
