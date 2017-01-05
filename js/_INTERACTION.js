@@ -44,18 +44,30 @@ function setupInteraction(target) {
 
 
 function mousePress() {
-    console.log('press');
+
     mouseIsDown = true;
-
-    toggleAudio();
-
     rolloverCheck();
+
+
+    if (playOver) {
+        introOut();
+        return;
+    }
+
+
+    if (TTAlpha.a===0) {
+        toggleAudio();
+
+
+    }
+
+
+
 
 
 }
 
 function mouseRelease() {
-    console.log('release');
     mouseIsDown = false;
 }
 
@@ -80,7 +92,14 @@ function mouseMove(event) {
 }
 
 function rolloverCheck() {
-    //playOver = hudCheck(dx - (32*units),dy + (8*units) + (midType*0.9),64*units,64*units);
+    var u = units;
+
+    if (subAlpha.a>0) {
+        playOver = hudCheck(dx-(30*u), dy+(40*u), 60*u, 60*u);
+    } else {
+        playOver = false;
+    }
+
 }
 
 

@@ -103,11 +103,11 @@ function audioKeyFrames() {
     }
 
     // RISE //
-    if (elapsed===24) {
+    if (elapsed===23) {
         colorTo(bgFill,200,150,80,1,3); // gold
     }
-    if (elapsed===27) {
-        colorTo(bgFill,200,100,110,1,0.8); // rose // hit
+    if (elapsed===28) {
+        colorTo(bgFill,200,100,110,1,0.7); // rose // hit
     }
     if (elapsed===35) {
         colorTo(bgFill,50,150,210,1,1); // blue
@@ -121,7 +121,7 @@ function audioKeyFrames() {
     if (elapsed===49) {
         colorTo(bgFill,50,50,70,1,1); // dark
     }
-    if (elapsed===61) {
+    if (elapsed===59) {
         colorTo(bgFill,170,170,160,1,2); // cream
     }
 

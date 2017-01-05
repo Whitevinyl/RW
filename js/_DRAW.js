@@ -1,18 +1,29 @@
 
 
 var TTAlpha = new Alpha(0);
+var subAlpha = new Alpha(0);
 var BGAlpha = new Alpha(1);
+var TTOffset = new Point(0,0);
+var subOffset = new Point(0,30);
+var playSize = new Point(1,1);
+var playLine = 0;
+
 
 function setupDrawing() {
+
     alphaTo(TTAlpha,1,4);
+
     setTimeout(function() {
-        introOut();
-    },4000);
+        pointTo(TTOffset,0,-15,0.8);
+        alphaTo(subAlpha,1,1);
+    },2000);
 }
 
 function introOut() {
     alphaTo(TTAlpha,0,2);
+    alphaTo(subAlpha,0,2);
     alphaTo(BGAlpha,0,2);
+    pointTo(playSize,1,0,0.2);
     startAudio();
     fadeOut(ctx[1],bgFill);
 }
@@ -54,39 +65,50 @@ function drawScene() {
     var font = "PT Serif";
     font = "Playfair Display";
     font = "Amiri";
+    var ct = ctx[0];
 
     // COMPOSITE //
-    ctx[0].drawImage(canvas[1],0,0);
+    ct.drawImage(canvas[1],0,0);
 
 
-    // PAINT //
+    // PAINTING //
     painter.draw();
 
 
-    // TEXT //
+    // INTRO BG //
     if (BGAlpha.a>0) {
-        ctx[0].globalAlpha = BGAlpha.a;
-        color.fill(ctx[0],darkCol);
-        ctx[0].fillRect(0,0,fullX,fullY);
+        ct.globalAlpha = BGAlpha.a;
+        color.fill(ct,darkCol);
+        ct.fillRect(0,0,fullX,fullY);
     }
 
-    color.fill(ctx[0],textCol);
+    // TEXT //
+    color.fill(ct,textCol);
     if (TTAlpha.a>0) {
-        ctx[0].globalAlpha = TTAlpha.a;
-        ctx[0].textAlign = 'center';
-        ctx[0].font = "400 italic " + midType + "px " + font;
-        ctx[0].fillText('"Piano Portraits"',dx,dy + (25*u));
-
-        ctx[0].textAlign = 'left';
-        ctx[0].font = "400 " + headerType + "px " + font;
-        spacedText(ctx[0],"RICK WAKEMAN",dx,dy - (15*u),20*u);
+        ct.globalAlpha = subAlpha.a;
+        ct.textAlign = 'center';
+        ct.font = "400 italic " + midType + "px " + font;
+        ct.fillText('"Piano Portraits"',dx,dy + (subOffset.y*u));
 
 
+        // PLAY //
+        drawPlay(ct,dx,dy + (70*u),25*u,(25*playSize.y)*u);
+        if (playOver && playLine<35) {
+            playLine += 2;
+        } else if (playLine>0) {
+            playLine -= 2;
+        }
+        ct.fillRect(dx - ((playLine/2)*u), dy + (90*u), playLine*u, (2*playSize.y)*u);
+
+        ct.globalAlpha = TTAlpha.a;
+        ct.textAlign = 'left';
+        ct.font = "400 " + headerType + "px " + font;
+        spacedText(ct,"RICK WAKEMAN",dx,dy + (TTOffset.y*u),20*u);
     }
-    ctx[0].globalAlpha = 1;
-    ctx[0].textAlign = 'left';
-    ctx[0].font = "400 " + bodyType + "px " + font;
-    ctx[0].fillText(elapsed,20*u,fullY - (20*u));
+    ct.globalAlpha = 1;
+    ct.textAlign = 'left';
+    ct.font = "400 " + bodyType + "px " + font;
+    ct.fillText(elapsed,20*u,fullY - (20*u));
 
 
     //pips.draw();
@@ -137,47 +159,7 @@ function fadeOut(ctx,col) {
     setTimeout(function(){fadeOut(ctx,col)},60);
 }
 
-function fillTextWithSpacing(context, text, x, y, spacing) {
 
-    context.save();
-    var spacedWidth = x;
-
-    //Start at position (X, Y).
-    //Measure wAll, the width of the entire string using measureText()
-    var wAll = context.measureText(text).width;
-    var wShorter;
-
-    do {
-        //Remove the first character from the string
-        var char = text.substr(0, 1);
-        text = text.substr(1);
-
-        //Print the first character at position (X, Y) using fillText()
-        context.fillText(char, x, y);
-
-        //Measure wShorter, the width of the resulting shorter string using measureText().
-        if (text == "")
-            wShorter = 0;
-        else
-            wShorter = context.measureText(text).width;
-
-        //Subtract the width of the shorter string from the width of the entire string, giving the kerned width of the character, wChar = wAll - wShorter
-        var wChar = wAll - wShorter;
-
-        //Increment X by wChar + spacing
-        x += wChar + spacing;
-
-        //wAll = wShorter
-        wAll = wShorter;
-
-        //Repeat from step 3
-    } while (text != "");
-
-    spacedWidth = x - spacedWidth;
-    context.transform(-(spacedWidth/2),0,0,0,0,0);
-
-    context.restore();
-}
 
 function spacedText(ctx,string,x,y,spacing) {
 
@@ -200,6 +182,16 @@ function spacedText(ctx,string,x,y,spacing) {
         ctx.fillText(charList[i], x, y);
         x += (spacing + charWidths[i]);
     }
+}
+
+
+function drawPlay(ct,x,y,w,h) {
+    ct.beginPath();
+    ct.moveTo(x - (w/2), y - (h/2));
+    ct.lineTo(x - (w/2), y + (h/2));
+    ct.lineTo(x + (w/2), y);
+    ct.closePath();
+    ct.fill();
 }
 
 //-------------------------------------------------------------------------------------------

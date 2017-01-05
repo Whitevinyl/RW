@@ -44,17 +44,8 @@ proto.burst = function(size) {
 proto.draw = function() {
     var x = this.position.x;
     var y = this.position.y;
-    var s = 3*units;
+    var s = 4*units;
     var ct = ctx[0];
-
-    /*color.fill(ctx[0],darkCol);
-    ct.beginPath();
-    ct.moveTo(x-s,y);
-    ct.lineTo(x,y-s);
-    ct.lineTo(x+s,y);
-    ct.lineTo(x,y+s);
-    ct.closePath();
-    ct.fill();*/
 
     color.stroke(ct,lightCol);
     ct.lineWidth = units;

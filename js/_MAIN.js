@@ -31,6 +31,8 @@ var touchTakeover = false;
 var touch;
 var mouseIsDown = false;
 
+var playOver = false;
+
 
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
@@ -65,14 +67,16 @@ function init() {
     }
 
 
+    // SET CANVAS & DRAWING POSITIONS //
+    metrics();
+
     // INITIALISE THINGS //
     setupInteraction(canvas[0]);
     setupAudio();
     setupDrawing();
 
 
-    // SET CANVAS & DRAWING POSITIONS //
-    metrics();
+
 
 
 

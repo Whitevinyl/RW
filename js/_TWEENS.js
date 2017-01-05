@@ -17,6 +17,23 @@ function alphaTo(obj,d,t) {
 }
 
 
+function pointTo(point,x,y,t) {
+    t = t || 1;
+
+    var cPos = {x: point.x, y: point.y };
+
+    var tween = new TWEEN.Tween(cPos);
+    tween.to({ X: x, y: y  }, t*1000);
+    tween.start();
+
+    tween.onUpdate(function() {
+        point.x = this.x;
+        point.y = this.y;
+    });
+
+    tween.easing( TWEEN.Easing.Quadratic.InOut );
+}
+
 
 
 function colorTo(col,r,g,b,a,t) {
