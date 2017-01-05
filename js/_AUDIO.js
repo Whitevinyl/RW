@@ -37,8 +37,8 @@ function setupAudio() {
     audioElement.src="audio/lom.mp3";
     audioElement.pause();
     audioPlayer = context.createMediaElementSource(audioElement);
-    audioPlayer.connect(audioMeter.input);
-    audioPlayer.connect(audioAnalyser.input);
+    audioPlayer.connect(audioMeter);
+    audioPlayer.connect(audioAnalyser);
     audioPlayer.connect(context.destination);
 
     audioElement.addEventListener("canplay", function() {
@@ -121,17 +121,17 @@ function audioKeyFrames() {
     if (elapsed===49) {
         colorTo(bgFill,50,50,70,1,1); // dark
     }
-    if (elapsed===59) {
+    if (elapsed===57) {
         colorTo(bgFill,170,170,160,1,2); // cream
     }
 
 
     // FALL //
-    if (elapsed===73) {
+    if (elapsed===72) {
         colorTo(bgFill,100,70,100,1,1); // purple
     }
     // RISE //
-    if (elapsed===80) {
+    if (elapsed===79) {
         colorTo(bgFill,200,150,80,1,1); // gold
     }
 
@@ -196,7 +196,7 @@ function audioKeyFrames() {
 
 
 function monitorAudio() {
-    if (audioHasLoaded && audioIsPlaying) {
+    if (audioIsPlaying) {
 
 
         frequencies = audioAnalyser.analyse();

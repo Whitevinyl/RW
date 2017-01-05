@@ -45,6 +45,29 @@ function decimaRound(n,places) {
     return Math.round(n * p) / p;
 }
 
+
+function degToRad(deg) {
+    return deg * (Math.PI/180);
+}
+
+function radToDeg(rad) {
+    return (rad/TAU) * 180;
+}
+
+function getRadius(a,b) {
+    return Math.sqrt((a*a)+(b*b));
+}
+
+function angleFromVector(vector) {
+    return Math.atan2(vector.y,vector.a);
+}
+
+function vectorFromAngle(angle) {
+    return new Vector(Math.cos(angle),Math.sin(angle));
+}
+
+
+
 //-------------------------------------------------------------------------------------------
 //  OBJECTS
 //-------------------------------------------------------------------------------------------

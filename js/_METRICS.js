@@ -46,14 +46,16 @@ function metrics() {
     if (device=="mobile") {
 
         u = (width * ratio) * 2.6;
-        units = (u/1200);
+        units = (u/700);
 
         // TEXT SIZES //
-        headerType = Math.round(u/25);
-        midType = Math.round(u/80);
+        headerType = Math.round(u/40);
+        midType = Math.round(u/50);
+        bodyType = Math.round(u/80);
         dataType = Math.round(u/100);
-        bodyType = Math.round(u/100);
         subType = Math.round(u/90);
+
+        rickSpace = 8;
 
     } else {
 
@@ -67,6 +69,7 @@ function metrics() {
         dataType = Math.round(u/82);
         subType = Math.round(u/90);
 
+        rickSpace = 20;
     }
 
 

@@ -48,7 +48,11 @@ function drawBG() {
 
 function drawStrokes() {
     var n = 1;
-    color.stroke(ctx[n],lightishCol);
+    ctx[n].globalAlpha = 0.5;
+    color.fill(ctx[n],paintCol);
+    meterBrush.draw(ctx[n]);
+    ctx[n].globalAlpha = 1;
+    color.stroke(ctx[n],lightCol);
     strokes.draw(ctx[n]);
 }
 
@@ -103,7 +107,7 @@ function drawScene() {
         ct.globalAlpha = TTAlpha.a;
         ct.textAlign = 'left';
         ct.font = "400 " + headerType + "px " + font;
-        spacedText(ct,"RICK WAKEMAN",dx,dy + (TTOffset.y*u),20*u);
+        spacedText(ct,"RICK WAKEMAN",dx,dy + (TTOffset.y*u),rickSpace*u);
     }
     ct.globalAlpha = 1;
     ct.textAlign = 'left';

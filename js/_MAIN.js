@@ -20,6 +20,7 @@ var dataType = 0;
 var bodyType = 0;
 var subType = 0;
 var device = "desktop";
+var rickSpace = 20;
 
 var TAU = 2 * Math.PI;
 
@@ -31,12 +32,14 @@ var touchTakeover = false;
 var touch;
 var mouseIsDown = false;
 
+
 var playOver = false;
 
 
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
 var bgFill = new RGBA(30,30,140,1);
+var paintCol = new RGBA(250,50,75,1);
 
 var textCol = new RGBA(255,255,255,1);
 var lightCol = new RGBA(255,255,255,1);
@@ -46,6 +49,8 @@ var darkCol = new RGBA(5,5,5,1);
 var pips;
 var painter;
 var strokes;
+var shapes;
+var meterBrush;
 
 
 //-------------------------------------------------------------------------------------------
@@ -89,7 +94,11 @@ function init() {
     strokes = new Strokes();
     strokes.setup();
 
+    shapes = new Shapes();
+    shapes.setup();
 
+    meterBrush = new MeterBrush();
+    meterBrush.setup();
 
     // DONE //
     draw();
@@ -126,6 +135,8 @@ function update() {
     pips.update();
     painter.walk();
     strokes.update();
+    shapes.update();
+    meterBrush.update();
 
     monitorAudio();
     audioKeyFrames();

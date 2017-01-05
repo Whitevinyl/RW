@@ -38,6 +38,9 @@ proto.walk = function() {
 
 proto.burst = function(size) {
     strokes.burst(this.position,this.vector,size);
+    if (size>0.5 && tombola.percent(50)) {
+        meterBrush.burst(this.position,this.vector,size*2);
+    }
 };
 
 

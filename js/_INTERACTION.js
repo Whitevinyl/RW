@@ -15,6 +15,7 @@ function setupInteraction(target) {
 
     // TOUCH //
     target.addEventListener('touchstart', function(event) {
+        event.preventDefault();
         if (event.targetTouches.length == 1) {
             touch = event.targetTouches[0];
             touchTakeover = true;
@@ -94,7 +95,7 @@ function mouseMove(event) {
 function rolloverCheck() {
     var u = units;
 
-    if (subAlpha.a>0) {
+    if (subAlpha.a === 1) {
         playOver = hudCheck(dx-(30*u), dy+(40*u), 60*u, 60*u);
     } else {
         playOver = false;
