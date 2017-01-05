@@ -46,7 +46,9 @@ function setupInteraction(target) {
 function mousePress() {
     console.log('press');
     mouseIsDown = true;
-    stopAudio();
+
+    toggleAudio();
+
     rolloverCheck();
 
 

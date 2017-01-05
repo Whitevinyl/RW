@@ -1,6 +1,3 @@
-/**
- * Created by luketwyman on 03/11/2014.
- */
 
 
 // INIT //
@@ -37,7 +34,8 @@ var mouseIsDown = false;
 
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
-var bgFill = new RGBA(120,120,120,1);
+var bgFill = new RGBA(30,30,140,1);
+
 var textCol = new RGBA(255,255,255,1);
 var lightCol = new RGBA(255,255,255,1);
 var lightishCol = new RGBA(240,240,240,0.9);
@@ -56,7 +54,7 @@ var strokes;
 function init() {
 
     ////////////// SETUP CANVAS ////////////
-    for (var i=0; i<3; i++) {
+    for (var i=0; i<2; i++) {
         var cnvs = document.getElementById("cnvs"+i);
         var cntx = cnvs.getContext("2d");
         cntx.mozImageSmoothingEnabled = false;
@@ -70,7 +68,7 @@ function init() {
     // INITIALISE THINGS //
     setupInteraction(canvas[0]);
     setupAudio();
-
+    setupDrawing();
 
 
     // SET CANVAS & DRAWING POSITIONS //
@@ -87,13 +85,11 @@ function init() {
     strokes = new Strokes();
     strokes.setup();
 
-    setupDrawing();
+
 
     // DONE //
     draw();
 }
-
-
 
 
 
@@ -108,7 +104,6 @@ function draw() {
     drawBG();
     drawScene();
     drawStrokes();
-
 
     requestAnimationFrame(draw);
 }
@@ -125,11 +120,11 @@ function update() {
     }
 
     pips.update();
-
     painter.walk();
     strokes.update();
 
     monitorAudio();
+    audioKeyFrames();
 }
 
 

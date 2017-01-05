@@ -19,7 +19,7 @@ function alphaTo(obj,d,t) {
 
 
 
-function colourTo(col,r,g,b,a,t) {
+function colorTo(col,r,g,b,a,t) {
 
     t = t || 1000;
 
@@ -30,16 +30,16 @@ function colourTo(col,r,g,b,a,t) {
     colTween.start();
 
     colTween.onUpdate(function() {
-        col.R = this.red;
-        col.G = this.green;
-        col.B = this.blue;
-        col.A = this.alpha;
+        col.R = Math.round(this.red);
+        col.G = Math.round(this.green);
+        col.B = Math.round(this.blue);
+        col.A = Math.round(this.alpha);
     });
 
     colTween.easing( TWEEN.Easing.Quadratic.InOut );
 }
 
-function colourToColour(col,col2,t) {
+function colorToColor(col,col2,t) {
 
     t = t || 1000;
 
@@ -66,7 +66,7 @@ function paletteTo(pal1,pal2,t) {
         length = pal2.length;
     }
     for (var i=0; i<length; i++) {
-        colourToColour(pal1[i],pal2[i],t);
+        colorToColor(pal1[i],pal2[i],t);
     }
 }
 
