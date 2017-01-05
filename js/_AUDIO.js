@@ -98,26 +98,93 @@ function toggleAudio() {
 function audioKeyFrames() {
     elapsed = Math.round(audioElement.currentTime);
 
-    if (elapsed===13) {
-        colorTo(bgFill,40,150,120,1,4); // green
+    if (elapsed===12) {
+        colorTo(bgFill,20,90,110,1,4); // green
+    }
+
+    // RISE //
+    if (elapsed===24) {
+        colorTo(bgFill,200,150,80,1,3); // gold
     }
     if (elapsed===27) {
-        colorTo(bgFill,200,100,110,1,0.8); // rose
+        colorTo(bgFill,200,100,110,1,0.8); // rose // hit
     }
     if (elapsed===35) {
-        colorTo(bgFill,50,160,210,1,1); // blue
+        colorTo(bgFill,50,150,210,1,1); // blue
     }
+
+
+    // CHORUS //
     if (elapsed===42) {
         colorTo(bgFill,170,170,160,1,1); // cream
     }
-    if (elapsed===50) {
+    if (elapsed===49) {
         colorTo(bgFill,50,50,70,1,1); // dark
+    }
+    if (elapsed===61) {
+        colorTo(bgFill,170,170,160,1,2); // cream
     }
 
 
+    // FALL //
+    if (elapsed===73) {
+        colorTo(bgFill,100,70,100,1,1); // purple
+    }
+    // RISE //
+    if (elapsed===80) {
+        colorTo(bgFill,200,150,80,1,1); // gold
+    }
+
+
+    // VERSE //
+    if (elapsed===93) {
+        colorTo(bgFill,30,30,140,1,4); // dk blue
+    }
+
+
+    // RISE //
+    if (elapsed===117) {
+        colorTo(bgFill,200,150,80,1,3); // gold
+    }
+    if (elapsed===123) {
+        colorTo(bgFill,200,100,110,1,0.8); // rose // hit
+    }
+    if (elapsed===130) {
+        colorTo(bgFill,50,150,210,1,1); // blue
+    }
+
+
+    // CHORUS //
+    if (elapsed===137) {
+        colorTo(bgFill,170,170,160,1,1); // cream
+    }
+    if (elapsed===146) {
+        colorTo(bgFill,50,50,70,1,1); // dark
+    }
+    if (elapsed===151) {
+        colorTo(bgFill,170,170,160,1,2); // cream
+    }
+    if (elapsed===161) {
+        colorTo(bgFill,100,70,100,1,1); // purple
+    }
+
+
+    // FALL //
+    if (elapsed===168) {
+        colorTo(bgFill,50,160,210,1,1); // blue
+    }
+    // RISE //
+    if (elapsed===179) {
+        colorTo(bgFill,50,160,210,1,1); // blue
+    }
+    // PEAK //
+    if (elapsed===181) {
+        colorTo(bgFill,250,175,60,1,3); // gold
+    }
+
 
     if (elapsed===190) {
-        colorTo(bgFill,5,5,7,1,3); // end black
+        colorTo(bgFill,5,5,7,1,5); // end black
     }
 }
 

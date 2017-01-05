@@ -33,7 +33,7 @@ proto.walk = function() {
 
     this.velocity = lerp(this.velocity,this.velocityDest,10);
     this.velocityDest *= 0.94;
-    this.velocityDest = valueInRange(this.velocityDest,0.0001,30);
+    this.velocityDest = valueInRange(this.velocityDest,0,30);
 };
 
 proto.burst = function(size) {

@@ -3,7 +3,7 @@
  */
 
 WebFontConfig = {
-    google: { families: [ 'PT+Serif::latin' ] }
+    google: { families: [ 'Playfair+Display::latin' ] }
 };
 (function() {
     var wf = document.createElement('script');

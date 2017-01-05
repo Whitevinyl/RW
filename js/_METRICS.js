@@ -61,10 +61,10 @@ function metrics() {
         units = (u/800);
 
         // TEXT SIZES //
-        headerType = Math.round(u/30);
-        midType = Math.round(u/50);
+        headerType = Math.round(u/28);
+        midType = Math.round(u/40);
+        bodyType = Math.round(u/55);
         dataType = Math.round(u/82);
-        bodyType = Math.round(u/42);
         subType = Math.round(u/90);
 
     }
