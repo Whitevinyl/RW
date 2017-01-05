@@ -47,14 +47,14 @@ proto.draw = function() {
     var s = 3*units;
     var ct = ctx[0];
 
-    color.fill(ctx[0],darkCol);
+    /*color.fill(ctx[0],darkCol);
     ct.beginPath();
     ct.moveTo(x-s,y);
     ct.lineTo(x,y-s);
     ct.lineTo(x+s,y);
     ct.lineTo(x,y+s);
     ct.closePath();
-    ct.fill();
+    ct.fill();*/
 
     color.stroke(ct,lightCol);
     ct.lineWidth = units;

@@ -37,9 +37,10 @@ var mouseIsDown = false;
 
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
-var bgFill = new RGBA(30,10,20,1);
+var bgFill = new RGBA(120,120,120,1);
 var textCol = new RGBA(255,255,255,1);
 var lightCol = new RGBA(255,255,255,1);
+var lightishCol = new RGBA(240,240,240,0.9);
 var darkCol = new RGBA(5,5,5,1);
 
 var pips;
@@ -105,8 +106,9 @@ function init() {
 function draw() {
     update();
     drawBG();
-    drawStrokes();
     drawScene();
+    drawStrokes();
+
 
     requestAnimationFrame(draw);
 }

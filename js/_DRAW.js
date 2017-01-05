@@ -2,11 +2,12 @@
 
 var TTAlpha = new Alpha(0);
 var BGAlpha = new Alpha(1);
+var fadeRow = 0;
 
 function setupDrawing() {
-    ctx[1].globalAlpha = 1;
+    /*ctx[1].globalAlpha = 1;
     color.fill(ctx[1],bgFill);
-    ctx[1].fillRect(0,0,fullX,fullY);
+    ctx[1].fillRect(0,0,fullX,fullY);*/
     alphaTo(TTAlpha,1,4);
     setTimeout(function() {
         introOut();
@@ -17,6 +18,8 @@ function introOut() {
     alphaTo(TTAlpha,0,2);
     alphaTo(BGAlpha,0,2);
     startAudio();
+    //fadeOut(ctx[1],bgFill);
+    fadeOut4(ctx[1],bgFill);
 }
 
 
@@ -38,17 +41,16 @@ function drawBG() {
 
 
 function drawStrokes() {
-    fadeCanvas(1);
-    ctx[1].globalAlpha = 1;
-    //color.fillRGBA(ctx[1],255,255,255,1);
-    color.strokeRGBA(ctx[1],255,255,255,1);
-    strokes.draw();
+    var n = 1;
+    //fadeCanvas(n);
+    //fadeCanvas2();
+    //ctx[n].globalAlpha = 1;
 
-    /*ctx[1].globalAlpha = 0.01;
-    color.fill(ctx[1],bgFill);
-    ctx[1].fillStyle="#666";
-    ctx[1].fillRect(0,0,fullX,fullY);*/
+    //fadeOut3(ctx[n],bgFill);
+    color.stroke(ctx[n],lightishCol);
+    strokes.draw(ctx[n]);
 
+    //fadeOut2(ctx[n],bgFill);
 }
 
 
@@ -138,15 +140,72 @@ function colorBlend(col1,col2,percent) {
 
 function fadeCanvas(n) {
     color.fill(ctx[2],bgFill);
-    ctx[2].fillRect(0,0,fullX,fullY);
     ctx[2].globalAlpha = 0.99;
+    ctx[2].clearRect(0,0,fullX,fullY);
     ctx[2].drawImage(canvas[n],0,0);
+    ctx[n].globalAlpha = 0.99;
+    color.fill(ctx[n],bgFill);
     ctx[n].clearRect(0,0,fullX,fullY);
-    ctx[n].globalAlpha = 1;
     ctx[n].drawImage(canvas[2],0,0);
 }
 
+function fadeCanvas2() {
+    if (audioIsPlaying) {
 
+        var r = 10;
+        var h = Math.ceil(fullY/r);
+
+        var data = ctx[1].getImageData(0,fadeRow*h,fullX,h);
+        var d = data.data;
+        var l = d.length-3;
+        for (var i=3; i<l; i+=4) {
+            d[i] *= 0.95;
+            if (d[i]<25) {
+                d[i] = 0;
+            }
+        }
+        ctx[1].putImageData(data,0,fadeRow*h);
+
+        fadeRow++;
+        if (fadeRow>r) {
+            fadeRow = 0;
+        }
+    }
+}
+
+function fadeOut(ctx,col) {
+    //ctx.globalAlpha = 1;
+    ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+",0.2)";
+    ctx.fillRect(0,0,fullX,fullY);
+    setTimeout(function(){fadeOut(ctx,col)},50);
+}
+
+function fadeOut2(ctx,col) {
+    //ctx.globalAlpha = 1;
+    ctx.save();
+    //ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+",0.05)";
+    color.fill(ctx,col);
+    ctx.globalAlpha = 1;
+    ctx.fillRect(0,0,fullX,fullY);
+    ctx.globalAlpha = 0.999;
+    ctx.drawImage(canvas[1],0,0);
+    ctx.restore();
+
+    ctx.globalAlpha = 1;
+
+
+}
+
+function fadeOut3(ctx,col) {
+    ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+","+tombola.rangeFloat(0.01,0.2)+")";
+    ctx.fillRect(0,0,fullX,fullY);
+}
+
+function fadeOut4(ctx,col) {
+    ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+","+tombola.rangeFloat(0.02,0.135)+")";
+    ctx.fillRect(0,0,fullX,fullY);
+    setTimeout(function(){fadeOut4(ctx,col)},60);
+}
 
 //-------------------------------------------------------------------------------------------
 //  EFFECTS
