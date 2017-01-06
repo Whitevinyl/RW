@@ -2,17 +2,20 @@
 
 function Painter() {
     this.position = null;
+    this.positionDest = null;
     this.simplex = new SimplexNoise();
     this.index = 10;
     this.velocity = 0;
     this.velocityDest = 0;
     this.vector = null;
+    this.dragged = false;
 }
 var proto = Painter.prototype;
 
 
 proto.setup = function() {
     this.position = new Point(dx,dy);
+    this.positionDest = this.position.clone();
     this.vector = new Vector(0,0);
 };
 
@@ -25,8 +28,12 @@ proto.walk = function() {
 
     var lx = this.position.x;
     var ly = this.position.y;
-    this.position.x = dx + (this.simplex.noise(this.index,0) * (dx*0.8));
-    this.position.y = dy + (this.simplex.noise(0,this.index) * (dy*0.8));
+    if (!this.dragged) {
+        this.positionDest.x = dx + (this.simplex.noise(this.index,0) * (dx*0.8));
+        this.positionDest.y = dy + (this.simplex.noise(0,this.index) * (dy*0.8));
+    }
+    this.position.x = lerp(this.position.x,this.positionDest.x,20);
+    this.position.y = lerp(this.position.y,this.positionDest.y,20);
 
     this.vector.x = this.position.x - lx;
     this.vector.y = this.position.y - ly;
@@ -35,6 +42,14 @@ proto.walk = function() {
     this.velocityDest *= 0.94;
     this.velocityDest = valueInRange(this.velocityDest,0,30);
 };
+
+proto.toMouse = function() {
+    if (this.dragged) {
+        this.positionDest.x = mouseX;
+        this.positionDest.y = mouseY;
+    }
+};
+
 
 proto.burst = function(size) {
     strokes.burst(this.position,this.vector,size);

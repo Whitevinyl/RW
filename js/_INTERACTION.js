@@ -56,20 +56,23 @@ function mousePress() {
     }
 
 
-    if (TTAlpha.a===0) {
+    if (pauseOver) {
         toggleAudio();
-
-
+        return;
     }
 
-
-
-
+    if (TTAlpha.a === 0) {
+        painter.dragged = true;
+        painter.toMouse();
+    }
 
 }
 
+
+
 function mouseRelease() {
     mouseIsDown = false;
+    painter.dragged = false;
 }
 
 
@@ -90,6 +93,10 @@ function mouseMove(event) {
     mouseX = x * ratio;
     mouseY = y * ratio;
     rolloverCheck();
+
+    if (TTAlpha.a === 0 && !pauseOver) {
+        painter.toMouse();
+    }
 }
 
 function rolloverCheck() {
@@ -99,6 +106,12 @@ function rolloverCheck() {
         playOver = hudCheck(dx-(30*u), dy+(40*u), 60*u, 60*u);
     } else {
         playOver = false;
+    }
+
+    if (TTAlpha.a === 0) {
+        pauseOver = hudCheck(10*u,10*u, 40*u, 60*u);
+    } else {
+        pauseOver = false;
     }
 
 }

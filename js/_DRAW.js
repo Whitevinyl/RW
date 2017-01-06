@@ -7,6 +7,7 @@ var TTOffset = new Point(0,0);
 var subOffset = new Point(0,30);
 var playSize = new Point(1,1);
 var playLine = 0;
+var pauseLine = 0;
 
 
 function setupDrawing() {
@@ -50,6 +51,8 @@ function drawStrokes() {
     var n = 1;
     ctx[n].globalAlpha = 0.5;
     color.fill(ctx[n],paintCol);
+    var m = 0.7;
+    color.fillRGBA(ctx[n],bgFill.R*m,bgFill.G*m,bgFill.B*m,1);
     meterBrush.draw(ctx[n]);
     ctx[n].globalAlpha = 1;
     color.stroke(ctx[n],lightCol);
@@ -69,6 +72,7 @@ function drawScene() {
     var font = "PT Serif";
     font = "Playfair Display";
     font = "Amiri";
+    font = "Bodoni";
     var ct = ctx[0];
 
     // COMPOSITE //
@@ -78,6 +82,41 @@ function drawScene() {
     // PAINTING //
     painter.draw();
 
+
+    // PLAY / PAUSE //
+    color.fill(ct,textCol);
+    ct.globalAlpha = 1;
+    if (audioIsPlaying) {
+        drawPause(ct,30*u,30*u,15*u,15*u);
+    } else {
+        drawPlay(ct,30*u,30*u,15*u,15*u);
+    }
+    if (pauseOver && pauseLine<20) {
+        pauseLine += 2;
+    }
+    if (!pauseOver && pauseLine>0) {
+        pauseLine -= 2;
+    }
+    ct.fillRect((30*u) - ((pauseLine/2)*u),45*u,pauseLine*u,2*u);
+
+
+    // ORDER //
+    ct.textAlign = 'center';
+    ct.font = "400 " + bodyType + "px " + font;
+    ct.lineWidth = 2*units;
+    var bw = 150*u;
+    var bh = 30*u;
+    var bx = fullX - (20*u) - (bw/2);
+    var by = fullY - (20*u) - (bh/2);
+
+    ct.fillText('Order Now',bx, by + (bodyType*0.35));
+    ct.beginPath();
+    ct.moveTo(bx - (bw/2), by - (bh/2));
+    ct.lineTo(bx - (bw/2), by + (bh/2));
+    ct.lineTo(bx + (bw/2), by + (bh/2));
+    ct.lineTo(bx + (bw/2), by - (bh/2));
+    ct.closePath();
+    ct.stroke();
 
     // INTRO BG //
     if (BGAlpha.a>0) {
@@ -91,8 +130,8 @@ function drawScene() {
     if (TTAlpha.a>0) {
         ct.globalAlpha = subAlpha.a;
         ct.textAlign = 'center';
-        ct.font = "400 italic " + midType + "px " + font;
-        ct.fillText('"Piano Portraits"',dx,dy + (subOffset.y*u));
+        ct.font = "400 oblique " + midType + "px " + font;
+        ct.fillText("'Piano Portraits'",dx,dy + (subOffset.y*u));
 
 
         // PLAY //
@@ -160,7 +199,7 @@ function colorBlend(col1,col2,percent) {
 function fadeOut(ctx,col) {
     ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+","+tombola.rangeFloat(0.02,0.135)+")";
     ctx.fillRect(0,0,fullX,fullY);
-    setTimeout(function(){fadeOut(ctx,col)},60);
+    setTimeout(function(){fadeOut(ctx,col)},80);
 }
 
 
@@ -196,6 +235,11 @@ function drawPlay(ct,x,y,w,h) {
     ct.lineTo(x + (w/2), y);
     ct.closePath();
     ct.fill();
+}
+
+function drawPause(ct,x,y,w,h) {
+    ct.fillRect(x - (w*0.45), y - (h/2), w*0.3, h);
+    ct.fillRect(x + (w*0.15), y - (h/2), w*0.3, h);
 }
 
 //-------------------------------------------------------------------------------------------

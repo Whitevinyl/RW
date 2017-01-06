@@ -34,6 +34,7 @@ var mouseIsDown = false;
 
 
 var playOver = false;
+var pauseOver = false;
 
 
 // COLORS //

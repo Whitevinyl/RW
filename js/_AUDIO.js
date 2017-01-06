@@ -8,6 +8,8 @@ var peaks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var mids, highs, meter, meterSize;
 var elapsed = 0;
 
+var mode = 0;
+
 //-------------------------------------------------------------------------------------------
 //  SETUP
 //-------------------------------------------------------------------------------------------
@@ -32,32 +34,35 @@ function setupAudio() {
     highs = 0;
 
 
+
     // SETUP AUDIO PLAYER //
-    audioElement = document.getElementById("player");
-    audioElement.src="audio/lom.mp3";
-    audioElement.pause();
-    audioPlayer = context.createMediaElementSource(audioElement);
-    audioPlayer.connect(audioMeter);
-    audioPlayer.connect(audioAnalyser);
-    audioPlayer.connect(context.destination);
+    var src = "audio/lom_192.mp3";
 
-    audioElement.addEventListener("canplay", function() {
-        audioLoaded();
-    });
+    // DOESN'T WORK WITH SAFARI //
+    if (mode===0) {
+        audioElement = document.getElementById("player");
+        audioElement.src=src;
+        audioElement.pause();
+        audioPlayer = context.createMediaElementSource(audioElement);
+        audioPlayer.connect(audioMeter);
+        audioPlayer.connect(audioAnalyser);
+        audioPlayer.connect(context.destination);
 
-    /*audioPlayer = new Tone.Player();
-    audioPlayer.load("audio/lom.mp3",function() {
-        audioLoaded();
-    });*/
+        audioElement.addEventListener("canplay", function() {
+            audioLoaded();
+        });
+    }
 
-
-
-
-
-    // CONNECTIONS //
-    /*audioPlayer.connect(audioMeter.input);
-    audioPlayer.connect(audioAnalyser.input);
-    audioPlayer.toMaster();*/
+    // WORKS WITH SAFARI //
+    else {
+        audioPlayer = new Tone.Player();
+        audioPlayer.load(src,function() {
+            audioPlayer.connect(audioMeter);
+            audioPlayer.connect(audioAnalyser);
+            audioPlayer.toMaster();
+            audioLoaded();
+        });
+    }
 }
 
 
@@ -71,15 +76,21 @@ function audioLoaded() {
 function stopAudio() {
     console.log('stopped');
     audioIsPlaying = false;
-    //audioPlayer.stop();
-    audioElement.pause();
+    if (mode===0) {
+        audioElement.pause();
+    } else {
+        audioPlayer.stop();
+    }
 }
 
 function startAudio() {
     console.log('started');
     audioIsPlaying = true;
-    //audioPlayer.start();
-    audioElement.play();
+    if (mode===0) {
+        audioElement.play();
+    } else {
+        audioPlayer.start();
+    }
 }
 
 function toggleAudio() {
@@ -96,7 +107,10 @@ function toggleAudio() {
 
 
 function audioKeyFrames() {
-    elapsed = Math.round(audioElement.currentTime);
+    if (audioElement) {
+        elapsed = Math.round(audioElement.currentTime);
+    }
+
 
     if (elapsed===12) {
         colorTo(bgFill,20,90,110,1,4); // green

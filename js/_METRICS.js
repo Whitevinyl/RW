@@ -49,8 +49,8 @@ function metrics() {
         units = (u/700);
 
         // TEXT SIZES //
-        headerType = Math.round(u/40);
-        midType = Math.round(u/50);
+        headerType = Math.round(u/32);
+        midType = Math.round(u/45);
         bodyType = Math.round(u/80);
         dataType = Math.round(u/100);
         subType = Math.round(u/90);
@@ -63,9 +63,9 @@ function metrics() {
         units = (u/800);
 
         // TEXT SIZES //
-        headerType = Math.round(u/28);
-        midType = Math.round(u/40);
-        bodyType = Math.round(u/55);
+        headerType = Math.round(u/18);
+        midType = Math.round(u/35);
+        bodyType = Math.round(u/50);
         dataType = Math.round(u/82);
         subType = Math.round(u/90);
 
