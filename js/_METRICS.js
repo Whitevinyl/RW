@@ -66,7 +66,7 @@ function metrics() {
         headerType = Math.round(u/22);
         midType = Math.round(u/35);
         bodyType = Math.round(u/50);
-        dataType = Math.round(u/82);
+        dataType = Math.round(u/85);
         subType = Math.round(u/90);
 
         rickSpace = 20;

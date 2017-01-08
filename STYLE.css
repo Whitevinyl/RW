@@ -52,7 +52,7 @@ body {
 
 #tt {
     width: 100%;
-    margin: 25% 0 30px 0;
+    margin: 25% 0 15px 0;
     font-family: "Bodoni", serif;
     font-size: 36px;
     text-transform: uppercase;
@@ -152,8 +152,8 @@ canvas {
 #cookie-banner-inner {
     font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
     width: 95% !important;
-    line-height: 40px !important;
-    padding: 5px 0 5px 0 !important;
+    line-height: 30px !important;
+    padding: 10px 0 10px 0 !important;
 }
 
 #cookie-banner-copy {
@@ -162,6 +162,7 @@ canvas {
 }
 
 #cont_button {
+    display: inline-block;
     font-size: 12px !important;
     margin-left: 10px !important;
     margin-right: 10px !important;

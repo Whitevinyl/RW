@@ -1,5 +1,5 @@
 
-var audioElement, audioPlayer, audioMeter, audioAnalyser, audioLevel, audioMax, audioMin, peakStrength;
+var audioElement, audioPlayer, audioMeter, audioEnd, audioAnalyser, audioLevel, audioMax, audioMin, peakStrength;
 var audioHasLoaded = false;
 var audioIsPlaying = false;
 var frequencies = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -8,7 +8,7 @@ var peaks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var mids, highs, meter, meterSize;
 var elapsed = 0;
 
-var mode = 0;
+var mode = 1;
 
 //-------------------------------------------------------------------------------------------
 //  SETUP
@@ -20,6 +20,9 @@ function setupAudio() {
     // MASTER VOL //
     Tone.Master.volume.value = -3;
     var context = Tone.context;
+
+    audioEnd = new Tone.Volume();
+    audioEnd.toMaster();
 
     // SETUP METER //
     audioMeter = new Tone.Meter('level',0.9);
@@ -35,43 +38,54 @@ function setupAudio() {
 
 
 
-    // SETUP AUDIO PLAYER //
-    var src = "audio/lom_192.mp3";
-    var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
-    //src = special;
+    //setTimeout(function() {
 
-    // DOESN'T WORK WITH SAFARI //
-    if (mode===0) {
-        audioElement = document.getElementById("player");
+        // SETUP AUDIO PLAYER //
+        var src = "audio/lom_192.mp3";
+        var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
+        var home = "http://whitevinyldesign.com/rwlom/audio/lom_192.mp3";
+        var home2 = "http://whitevinyldesign.com/rwlom/audio/lom_128.mp3";
+        var home3 = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
+        src = special;
+        src = home3;
 
-        audioElement.addEventListener("canplay", function(e) {
-            if (!audioHasLoaded) {
-                console.log('can play');
-                //console.log(e);
+        // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
+        if (mode===0) {
+            audioElement = document.getElementById("player");
+            audioElement.addEventListener("canplay", function() {
+                if (!audioHasLoaded) {
+                    console.log('can play');
+                    audioLoaded();
+                    audioPlayer = context.createMediaElementSource(audioElement);
+                    audioPlayer.connect(audioMeter);
+                    audioPlayer.connect(audioAnalyser);
+                    audioPlayer.connect(audioEnd);
+                }
+            });
+            //audioElement.crossOrigin = "anonymous";
+            audioElement.src=src;
+            //audioElement.load();
+            audioElement.pause();
+            /*audioPlayer = context.createMediaElementSource(audioElement);
+             audioPlayer.connect(audioMeter);
+             audioPlayer.connect(audioAnalyser);
+             audioPlayer.connect(context.destination);*/
+
+        }
+
+        // JUST WEB AUDIO CONTEXT  (LOADS WHOLE MP3) //
+        else {
+            audioPlayer = new Tone.Player();
+            audioPlayer.load(src,function() {
+                audioPlayer.connect(audioMeter);
+                audioPlayer.connect(audioAnalyser);
+                audioPlayer.toMaster();
                 audioLoaded();
-            }
-        });
-        //audioElement.crossOrigin = "anonymous";
-        audioElement.src=src;
-        audioElement.pause();
-        audioPlayer = context.createMediaElementSource(audioElement);
-        audioPlayer.connect(audioMeter);
-        audioPlayer.connect(audioAnalyser);
-        audioPlayer.connect(context.destination);
+            });
+        }
 
+    //},500);
 
-    }
-
-    // WORKS WITH SAFARI //
-    else {
-        audioPlayer = new Tone.Player();
-        audioPlayer.load(src,function() {
-            audioPlayer.connect(audioMeter);
-            audioPlayer.connect(audioAnalyser);
-            audioPlayer.toMaster();
-            audioLoaded();
-        });
-    }
 }
 
 

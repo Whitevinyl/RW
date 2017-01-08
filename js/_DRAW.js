@@ -10,6 +10,8 @@ var playSize = new Point(1,1);
 var playLine = 0;
 var pauseLine = 0;
 var menuLine = 16;
+var bufferNo = 0;
+var bufferCount = 0;
 
 
 function setupDrawing() {
@@ -120,7 +122,9 @@ function drawScene() {
             }
             ct.fillRect(dx - ((playLine/2)*u), dy + (90*u), playLine*u, (2*playSize.y)*u);
         } else {
-
+            drawBuffer(ct,dx,dy + (70*u),25*u,2*u);
+            ct.font = "400 " +dataType + "px " + "Open Sans";
+            ct.fillText("Loading Audio",dx, dy + (103*u));
         }
 
 
@@ -297,6 +301,48 @@ function drawHamburger(ct,x,y,w,h,t) {
     ct.fillRect(x - (w/2), y - (h/2), w, t);
     ct.fillRect(x - (w/2), y - (t/2), w, t);
     ct.fillRect(x - (w/2), y + (h/2) - t, w, t);
+}
+
+function drawBuffer(ct,x,y,s,t) {
+
+    var rt = t;
+    var dt = t*2;
+
+
+    bufferCount++;
+
+    if (bufferCount === 5) {
+        bufferNo++;
+        if (bufferNo>7) {
+            bufferNo = 0;
+        }
+        bufferCount = 0;
+    }
+
+    t = rt;
+    if (bufferNo === 0) t = dt;
+    ct.fillRect(x - (s/2) - (t/2), y - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 1) t = dt;
+    ct.fillRect(x - (s/3) - (t/2), y - (s/3) - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 2) t = dt;
+    ct.fillRect(x - (t/2), y - (s/2) - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 3) t = dt;
+    ct.fillRect(x + (s/3) - (t/2), y - (s/3) - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 4) t = dt;
+    ct.fillRect(x + (s/2) - (t/2), y - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 5) t = dt;
+    ct.fillRect(x + (s/3) - (t/2), y + (s/3) - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 6) t = dt;
+    ct.fillRect(x - (t/2), y + (s/2) - (t/2), t, t);
+    t = rt;
+    if (bufferNo === 7) t = dt;
+    ct.fillRect(x - (s/3) - (t/2), y + (s/3) - (t/2), t, t);
 }
 
 //-------------------------------------------------------------------------------------------
