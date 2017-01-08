@@ -146,22 +146,45 @@ canvas {
 }
 
 #cookie-banner {
-    height: 50px !important;
+    height: auto !important;
 }
 
 #cookie-banner-inner {
-    font-size: 13px !important;
     font-family: "Open Sans", Helvetica, Arial, sans-serif !important;
-    width: 70% !important;
+    width: 95% !important;
     line-height: 40px !important;
     padding: 5px 0 5px 0 !important;
 }
 
 #cookie-banner-copy {
+    font-size: 12px !important;
     text-align: center !important;
 }
 
-#cont-button {
+#cont_button {
+    font-size: 12px !important;
     margin-left: 10px !important;
     margin-right: 10px !important;
+    padding: 3px 10px 3px 10px !important;
+
+    -webkit-transition: background-color 0.4s;
+    transition: background-color 0.4s;
+}
+#cont_button:hover {
+    background-color: #bbb5bb !important;
+}
+
+@media (max-width:1000px){
+    #cookie-banner-inner {
+        line-height: 25px !important;
+    }
+    #cookie-banner-copy {
+        font-size: 11px !important;
+    }
+    #cont_button {
+        font-size: 11px !important;
+        margin-left: 6px !important;
+        margin-right: 6px !important;
+        padding: 2px 6px 2px 6px !important;
+    }
 }
