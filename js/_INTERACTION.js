@@ -61,6 +61,11 @@ function mousePress() {
         return;
     }
 
+    if (menuOver) {
+        toggleMenu();
+        return;
+    }
+
     if (TTAlpha.a === 0) {
         painter.dragged = true;
         painter.toMouse();
@@ -102,7 +107,7 @@ function mouseMove(event) {
 function rolloverCheck() {
     var u = units;
 
-    if (subAlpha.a === 1) {
+    if (subAlpha.a === 1 && audioHasLoaded) {
         playOver = hudCheck(dx-(30*u), dy+(40*u), 60*u, 60*u);
     } else {
         playOver = false;
@@ -110,6 +115,7 @@ function rolloverCheck() {
 
     if (TTAlpha.a === 0) {
         pauseOver = hudCheck(10*u,10*u, 40*u, 60*u);
+        menuOver = hudCheck(fullX - (60*u),fullY - (50*u), 60*u, 50*u);
     } else {
         pauseOver = false;
     }
@@ -137,5 +143,18 @@ function clickOrTouch(event) {
 
     if (mouseIsDown==false) {
         mousePress(event);
+    }
+}
+
+
+function toggleMenu() {
+    var obj = document.getElementById('card').style;
+    if (menuOpen) {
+        cardTo(obj,0,100,0.6,0);
+        menuOpen = false;
+
+    } else {
+        cardTo(obj,100,0,1,0);
+        menuOpen = true;
     }
 }

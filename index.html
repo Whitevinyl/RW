@@ -17,6 +17,7 @@
     <script type="text/javascript" src="js/lib/tombola.js"></script>
     <script type="text/javascript" src="js/lib/colorflex.js"></script>
     <script type="text/javascript" src="js/lib/perlin-simplex.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.24/webfontloader.js"></script>
 
     <script type="text/javascript" src="js/_UTILS.js"></script>
 
@@ -31,11 +32,10 @@
     <script type="text/javascript" src="js/_INTERACTION.js"></script>
     <script type="text/javascript" src="js/_DRAW.js"></script>
     <script type="text/javascript" src="js/_TWEENS.js"></script>
-    <!--<script type="text/javascript" src="js/_FONTS.js"></script>-->
+    <script type="text/javascript" src="js/_FONTS.js"></script>
 
     <link href="STYLE.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Amiri:400,400i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
     <link href="webfonts/stylesheet.css" rel="stylesheet" type="text/css" >
 
 
@@ -52,15 +52,53 @@
 </head>
 <body oncontextmenu="return false" bgcolor="#000" onload="init()" onresize="metrics()">
 
+<div id="app" >
+
     <canvas id="cnvs0" class="unselectable"></canvas>
     <canvas id="cnvs1" class="unselectable"></canvas>
 
+    <div id="card">
+
+        <div id="cardWrap">
+
+            <div id="tt">'Life On Mars'</div>
+
+            <div id="message">
+                From the new album 'Piano Portraits' out 13.01.17
+            </div>
+
+            <a class="button"href="https://rickwakeman.lnk.to/ppWa" target="_blank">Order Now</a>
+
+        </div>
+
+
+
+    </div>
+
     <audio id="player"  autoplay="true">
-        
+
     </audio>
 
     <audio id="sc-player-audio" autoplay="true">
         <source id="sc-player-source" type="audio/mpeg">
     </audio>
+
+</div>
+
+<div id="legals">
+    <div id="copy">&copy; 2015 UNIVERSAL RECORDS</div>
+    <div id="links">
+        <a href="http://www.umusic.co.uk/terms.html" target="_blank">Website Terms of Use</a>
+        <a href="http://www.umusic.co.uk/home/safe.php" target="_blank">Safe Surf Guide</a>
+        <a href="http://www.umusic.co.uk/privacy.html" target="_blank">Privacy Policy</a>
+        <a href="http://www.umusic.co.uk/cookie-info.html" target="_blank">Cookie Info</a>
+    </div>
+
+</div>
+
+
+<!--<script src="http://www.umusic.co.uk/cookies.js"></script>-->
+<script src="http://www.umusic.co.uk/cookies-venda.js"></script>
+
 </body>
 </html>

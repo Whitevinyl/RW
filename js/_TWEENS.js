@@ -1,12 +1,35 @@
 
 
-function alphaTo(obj,d,t) {
+function cardTo(obj,from,to,t,delay) {
     t = t || 1;
+    delay = delay || 0;
+
+
+
+    var cPos = {y: from };
+
+    var tween = new TWEEN.Tween(cPos);
+    tween.to({ y: to  }, t*1000);
+    tween.delay(delay*1000);
+    tween.start();
+
+    tween.onUpdate(function() {
+        obj.top = ""+this.y+"%";
+    });
+
+    tween.easing( TWEEN.Easing.Quadratic.InOut );
+}
+
+
+function alphaTo(obj,d,t,delay) {
+    t = t || 1;
+    delay = delay || 0;
 
     var cPos = {a: obj.a };
 
     var tween = new TWEEN.Tween(cPos);
     tween.to({ a: d  }, t*1000);
+    tween.delay(delay*1000);
     tween.start();
 
     tween.onUpdate(function() {

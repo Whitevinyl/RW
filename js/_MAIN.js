@@ -4,6 +4,7 @@
 var canvas = [];
 var ctx = [];
 var TWEEN;
+var fonts;
 
 
 // METRICS //
@@ -31,10 +32,11 @@ var mouseY = 0;
 var touchTakeover = false;
 var touch;
 var mouseIsDown = false;
-
+var menuOpen = false;
 
 var playOver = false;
 var pauseOver = false;
+var menuOver = false;
 
 
 // COLORS //
@@ -53,6 +55,13 @@ var strokes;
 var shapes;
 var meterBrush;
 
+// COOKIE BAR //
+var umgCookieParams = {
+    bannerPos: 'top',
+    barColor: '#000000',
+    copyColor: '#ffffff',
+    mainColor: '#666666'
+};
 
 //-------------------------------------------------------------------------------------------
 //  INITIALISE
@@ -73,6 +82,7 @@ function init() {
     }
 
 
+
     // SET CANVAS & DRAWING POSITIONS //
     metrics();
 
@@ -80,8 +90,6 @@ function init() {
     setupInteraction(canvas[0]);
     setupAudio();
     setupDrawing();
-
-
 
 
 
@@ -102,7 +110,9 @@ function init() {
     meterBrush.setup();
 
     // DONE //
-    draw();
+    fonts = new Fonts(['Bodoni:n4,o4'],2,function(){draw();});
+    fonts.setup();
+    //draw();
 }
 
 

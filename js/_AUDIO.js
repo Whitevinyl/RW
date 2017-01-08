@@ -37,10 +37,21 @@ function setupAudio() {
 
     // SETUP AUDIO PLAYER //
     var src = "audio/lom_192.mp3";
+    var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
+    //src = special;
 
     // DOESN'T WORK WITH SAFARI //
     if (mode===0) {
         audioElement = document.getElementById("player");
+
+        audioElement.addEventListener("canplay", function(e) {
+            if (!audioHasLoaded) {
+                console.log('can play');
+                //console.log(e);
+                audioLoaded();
+            }
+        });
+        //audioElement.crossOrigin = "anonymous";
         audioElement.src=src;
         audioElement.pause();
         audioPlayer = context.createMediaElementSource(audioElement);
@@ -48,9 +59,7 @@ function setupAudio() {
         audioPlayer.connect(audioAnalyser);
         audioPlayer.connect(context.destination);
 
-        audioElement.addEventListener("canplay", function() {
-            audioLoaded();
-        });
+
     }
 
     // WORKS WITH SAFARI //
@@ -199,6 +208,9 @@ function audioKeyFrames() {
 
     if (elapsed===190) {
         colorTo(bgFill,5,5,7,1,5); // end black
+    }
+    if (elapsed===195 && !menuOpen) {
+        toggleMenu();
     }
 }
 

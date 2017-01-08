@@ -2,12 +2,14 @@
 
 var TTAlpha = new Alpha(0);
 var subAlpha = new Alpha(0);
+var smallAlpha = new Alpha(0);
 var BGAlpha = new Alpha(1);
 var TTOffset = new Point(0,0);
 var subOffset = new Point(0,30);
 var playSize = new Point(1,1);
 var playLine = 0;
 var pauseLine = 0;
+var menuLine = 16;
 
 
 function setupDrawing() {
@@ -24,6 +26,7 @@ function introOut() {
     alphaTo(TTAlpha,0,2);
     alphaTo(subAlpha,0,2);
     alphaTo(BGAlpha,0,2);
+    alphaTo(smallAlpha,1,2,2);
     pointTo(playSize,1,0,0.2);
     startAudio();
     fadeOut(ctx[1],bgFill);
@@ -83,40 +86,12 @@ function drawScene() {
     painter.draw();
 
 
-    // PLAY / PAUSE //
     color.fill(ct,textCol);
-    ct.globalAlpha = 1;
-    if (audioIsPlaying) {
-        drawPause(ct,30*u,30*u,15*u,15*u);
-    } else {
-        drawPlay(ct,30*u,30*u,15*u,15*u);
-    }
-    if (pauseOver && pauseLine<20) {
-        pauseLine += 2;
-    }
-    if (!pauseOver && pauseLine>0) {
-        pauseLine -= 2;
-    }
-    ct.fillRect((30*u) - ((pauseLine/2)*u),45*u,pauseLine*u,2*u);
 
 
-    // ORDER //
-    ct.textAlign = 'center';
-    ct.font = "400 " + bodyType + "px " + font;
-    ct.lineWidth = 2*units;
-    var bw = 150*u;
-    var bh = 30*u;
-    var bx = fullX - (20*u) - (bw/2);
-    var by = fullY - (20*u) - (bh/2);
+    // SMALL MESSAGING //
+    drawSmallMessaging(ct,u,font);
 
-    ct.fillText('Order Now',bx, by + (bodyType*0.35));
-    ct.beginPath();
-    ct.moveTo(bx - (bw/2), by - (bh/2));
-    ct.lineTo(bx - (bw/2), by + (bh/2));
-    ct.lineTo(bx + (bw/2), by + (bh/2));
-    ct.lineTo(bx + (bw/2), by - (bh/2));
-    ct.closePath();
-    ct.stroke();
 
     // INTRO BG //
     if (BGAlpha.a>0) {
@@ -135,27 +110,103 @@ function drawScene() {
 
 
         // PLAY //
-        drawPlay(ct,dx,dy + (70*u),25*u,(25*playSize.y)*u);
-        if (playOver && playLine<35) {
-            playLine += 2;
-        } else if (playLine>0) {
-            playLine -= 2;
+        if (audioHasLoaded) {
+            drawPlay(ct,dx,dy + (70*u),25*u,(25*playSize.y)*u);
+            if (playOver && playLine<35) {
+                playLine += 2;
+            }
+            if (!playOver && playLine>0) {
+                playLine -= 2;
+            }
+            ct.fillRect(dx - ((playLine/2)*u), dy + (90*u), playLine*u, (2*playSize.y)*u);
+        } else {
+
         }
-        ct.fillRect(dx - ((playLine/2)*u), dy + (90*u), playLine*u, (2*playSize.y)*u);
+
+
+
+
 
         ct.globalAlpha = TTAlpha.a;
         ct.textAlign = 'left';
         ct.font = "400 " + headerType + "px " + font;
         spacedText(ct,"RICK WAKEMAN",dx,dy + (TTOffset.y*u),rickSpace*u);
     }
-    ct.globalAlpha = 1;
-    ct.textAlign = 'left';
-    ct.font = "400 " + bodyType + "px " + font;
-    ct.fillText(elapsed,20*u,fullY - (20*u));
+
+
+    //drawTest();
 
 
     //pips.draw();
 }
+
+
+function drawTest() {
+    ct.globalAlpha = 1;
+    ct.textAlign = 'left';
+    ct.font = "400 " + bodyType + "px " + font;
+    ct.fillText(elapsed,20*u,fullY - (20*u));
+}
+
+
+
+function drawSmallMessaging(ct,u,font) {
+    if (smallAlpha.a>0) {
+        ct.globalAlpha = smallAlpha.a;
+
+
+        // BOTTOM TEXT //
+        ct.textAlign = 'center';
+        ct.font = "400 " + bodyType + "px " + font;
+        spacedText(ct,"RICK WAKEMAN",dx,fullY - (45*u),10*u);
+        ct.font = "400 oblique " + bodyType + "px " + font;
+        ct.fillText("'Piano Portraits'",dx, fullY - (20*u));
+
+
+        // PLAY / PAUSE //
+        if (audioIsPlaying) {
+            drawPause(ct,30*u,30*u,15*u,15*u);
+        } else {
+            drawPlay(ct,30*u,30*u,15*u,15*u);
+        }
+        if (pauseOver && pauseLine<20) {
+            pauseLine += 2;
+        }
+        if (!pauseOver && pauseLine>0) {
+            pauseLine -= 2;
+        }
+        ct.fillRect((30*u) - ((pauseLine/2)*u),45*u,pauseLine*u,2*u);
+
+        // ORDER BTN //
+        /*ct.textAlign = 'center';
+
+         ct.lineWidth = 2*units;
+         var bw = 150*u;
+         var bh = 30*u;
+         var bx = fullX - (20*u) - (bw/2);
+         var by = fullY - (20*u) - (bh/2);
+
+         ct.fillText('Order Now',bx, by + (bodyType*0.35));
+         ct.beginPath();
+         ct.moveTo(bx - (bw/2), by - (bh/2));
+         ct.lineTo(bx - (bw/2), by + (bh/2));
+         ct.lineTo(bx + (bw/2), by + (bh/2));
+         ct.lineTo(bx + (bw/2), by - (bh/2));
+         ct.closePath();
+         ct.stroke();*/
+
+        // HAMBURGER //
+        if (menuOver && menuLine<24) {
+            menuLine += 1;
+        }
+        if (!menuOver && menuLine>16) {
+            menuLine -= 1;
+        }
+        drawHamburger(ct,fullX - (35*u), fullY - (30*u), 25*u, menuLine*u, 2*u);
+    }
+
+}
+
 
 
 function drawData(cxa) {
@@ -197,9 +248,9 @@ function colorBlend(col1,col2,percent) {
 
 
 function fadeOut(ctx,col) {
-    ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+","+tombola.rangeFloat(0.02,0.135)+")";
+    ctx.fillStyle = "rgba("+col.R+","+col.G+","+col.B+","+tombola.rangeFloat(0.01,0.135)+")";
     ctx.fillRect(0,0,fullX,fullY);
-    setTimeout(function(){fadeOut(ctx,col)},80);
+    setTimeout(function(){fadeOut(ctx,col)},90);
 }
 
 
@@ -238,8 +289,14 @@ function drawPlay(ct,x,y,w,h) {
 }
 
 function drawPause(ct,x,y,w,h) {
-    ct.fillRect(x - (w*0.45), y - (h/2), w*0.3, h);
-    ct.fillRect(x + (w*0.15), y - (h/2), w*0.3, h);
+    ct.fillRect(x - (w*0.45), y - (h/2), w*0.25, h);
+    ct.fillRect(x + (w*0.2), y - (h/2), w*0.25, h);
+}
+
+function drawHamburger(ct,x,y,w,h,t) {
+    ct.fillRect(x - (w/2), y - (h/2), w, t);
+    ct.fillRect(x - (w/2), y - (t/2), w, t);
+    ct.fillRect(x - (w/2), y + (h/2) - t, w, t);
 }
 
 //-------------------------------------------------------------------------------------------
