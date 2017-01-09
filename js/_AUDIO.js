@@ -138,6 +138,8 @@ function restart() {
     elapsed = 0;
     tweened = 0;
     colorTo(bgFill,30,30,140,1,0.5); // dk blue
+    colorTo(paints[0],250,50,75,1,1); // red
+    colorTo(paints[1],65,50,250,1,1); // blue
 }
 
 //-------------------------------------------------------------------------------------------
@@ -152,89 +154,93 @@ function audioKeyFrames() {
 
 
     if (elapsed===12 && tweened<elapsed) {
-        colorTo(bgFill,20,90,110,1,4); // green
+        colorTo(bgFill,40,10,130,1,4); // darker
         tweened = elapsed;
     }
 
     // RISE //
-    if (elapsed===23 && tweened<elapsed) {
-        colorTo(bgFill,200,150,80,1,3); // gold
+    if (elapsed===22 && tweened<elapsed) {
+        colorTo(bgFill,225,175,80,1,3); // gold
         tweened = elapsed;
     }
     if (elapsed===28 && tweened<elapsed) {
-        colorTo(bgFill,200,100,110,1,0.7); // rose // hit
+        colorTo(bgFill,215,100,115,1,0.7); // rose // hit
         tweened = elapsed;
     }
     if (elapsed===35 && tweened<elapsed) {
-        colorTo(bgFill,50,150,210,1,1); // blue
+        colorTo(bgFill,50,160,210,1,1); // blue
+        colorTo(paints[1],255,180,60,1,1); // yellow
         tweened = elapsed;
     }
 
 
     // CHORUS //
     if (elapsed===42 && tweened<elapsed) {
-        colorTo(bgFill,170,170,160,1,1); // cream
+        colorTo(bgFill,170,165,160,1,1); // cream
         tweened = elapsed;
     }
     if (elapsed===49 && tweened<elapsed) {
-        colorTo(bgFill,50,50,70,1,1); // dark
+        colorTo(bgFill,40,40,70,1,1); // dark
+        colorTo(paints[1],65,50,250,1,1); // blue
         tweened = elapsed;
     }
     if (elapsed===57 && tweened<elapsed) {
-        colorTo(bgFill,170,170,160,1,2); // cream
+        colorTo(bgFill,170,165,160,1,2); // cream
         tweened = elapsed;
     }
 
 
     // FALL //
     if (elapsed===72 && tweened<elapsed) {
-        colorTo(bgFill,100,70,100,1,1); // purple
+        colorTo(bgFill,100,20,110,1,1); // purple
         tweened = elapsed;
     }
     // RISE //
     if (elapsed===79 && tweened<elapsed) {
-        colorTo(bgFill,200,150,80,1,1); // gold
+        colorTo(bgFill,225,170,80,1,1); // gold
         tweened = elapsed;
     }
 
 
     // VERSE //
-    if (elapsed===93 && tweened<elapsed) {
-        colorTo(bgFill,30,30,140,1,4); // dk blue
+    if (elapsed===92 && tweened<elapsed) {
+        colorTo(bgFill,30,30,140,1,3); // dk blue
         tweened = elapsed;
     }
 
 
     // RISE //
     if (elapsed===117 && tweened<elapsed) {
-        colorTo(bgFill,200,150,80,1,3); // gold
+        colorTo(bgFill,225,170,80,1,3); // gold
         tweened = elapsed;
     }
     if (elapsed===123 && tweened<elapsed) {
-        colorTo(bgFill,200,100,110,1,0.8); // rose // hit
+        colorTo(bgFill,210,100,110,1,0.8); // rose // hit
         tweened = elapsed;
     }
     if (elapsed===130 && tweened<elapsed) {
         colorTo(bgFill,50,150,210,1,1); // blue
+        colorTo(paints[0],255,180,60,1,1); // yellow
         tweened = elapsed;
     }
 
 
     // CHORUS //
     if (elapsed===137 && tweened<elapsed) {
-        colorTo(bgFill,170,170,160,1,1); // cream
+        colorTo(bgFill,170,165,160,1,1); // cream
         tweened = elapsed;
     }
     if (elapsed===146 && tweened<elapsed) {
-        colorTo(bgFill,50,50,70,1,1); // dark
+        colorTo(bgFill,40,40,70,1,1); // dark
         tweened = elapsed;
     }
     if (elapsed===151 && tweened<elapsed) {
-        colorTo(bgFill,170,170,160,1,2); // cream
+        colorTo(bgFill,170,165,160,1,2); // cream
+        colorTo(paints[0],250,50,75,1,1); // red
         tweened = elapsed;
     }
     if (elapsed===161 && tweened<elapsed) {
-        colorTo(bgFill,100,70,100,1,1); // purple
+        colorTo(bgFill,100,20,110,1,1); // purple
         tweened = elapsed;
     }
 
@@ -244,9 +250,14 @@ function audioKeyFrames() {
         colorTo(bgFill,50,160,210,1,1); // blue
         tweened = elapsed;
     }
+    if (elapsed===172 && tweened<elapsed) {
+        colorTo(bgFill,40,10,130,1,4); // darker
+        tweened = elapsed;
+    }
+
     // RISE //
     if (elapsed===179 && tweened<elapsed) {
-        colorTo(bgFill,50,160,210,1,1); // blue
+        colorTo(bgFill,220,100,120,1,1); // pink
         tweened = elapsed;
     }
     // PEAK //

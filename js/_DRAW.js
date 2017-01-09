@@ -56,10 +56,11 @@ function drawStrokes() {
     var n = 1;
     ctx[n].globalAlpha = 0.5;
     color.fill(ctx[n],paintCol);
-    var m = 0.7;
+
     color.stroke(ctx[n],darkCol);
     streaks.draw(ctx[n]);
-    color.fillRGBA(ctx[n],bgFill.R*m,bgFill.G*m,bgFill.B*m,1);
+    //var m = 0.7;
+    //color.fillRGBA(ctx[n],bgFill.R*m,bgFill.G*m,bgFill.B*m,1);
     meterBrush.draw(ctx[n]);
     ctx[n].globalAlpha = 1;
     color.stroke(ctx[n],lightCol);

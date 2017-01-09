@@ -26,6 +26,15 @@ proto.draw = function(ctx) {
 };
 
 proto.burst = function(position,vector,mode,size) {
+
+    var c = tombola.item(paints);
+    if (tombola.percent(70)) {
+        c = colorBlend(paints[0],paints[1],tombola.range(10,90));
+    }
+    if (tombola.percent(25)) {
+        c = colorBlend(c,lightCol,tombola.range(10,85));
+    }
+
     var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
     var p;
     if (mode === 0) {
@@ -40,18 +49,19 @@ proto.burst = function(position,vector,mode,size) {
         v.normalise();
         p = position.clone();
     }
-    this.p.push(new MeterP(p,v,size,mode,this));
+    this.p.push(new MeterP(p,v,size,mode,this,c));
 };
 
 
 
 
-function MeterP(position,vector,size,mode,parent) {
+function MeterP(position,vector,size,mode,parent,color) {
     this.position = position;
     this.vector = vector;
     this.size = size;
     this.mode = mode;
     this.parent = parent;
+    this.color = color;
     this.life = tombola.range(40,60);
     var r = meter*15;
     if (mode===1) {
@@ -94,6 +104,7 @@ proto.update = function() {
 };
 
 proto.draw = function(ctx) {
+    color.fill(ctx,this.color);
     ctx.beginPath();
     ctx.arc(this.position.x,this.position.y,this.rad,0,TAU);
     ctx.closePath();

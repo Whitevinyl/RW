@@ -39,9 +39,9 @@ function StreakP(position,vector,size,mode,parent) {
     this.position = position;
     this.start = this.position.clone();
     this.vector = vector;
-    this.size = size;
+    this.size = size * tombola.rangeFloat(0.8,1.2);
     this.parent = parent;
-    this.life = tombola.range(20,60);
+    this.life = tombola.range(20,70);
     this.mode = mode;
 }
 proto = StreakP.prototype;
@@ -61,21 +61,30 @@ proto.update = function() {
         return;
     }
 
-    this.position.x += (this.vector.x * this.size);
-    this.position.y += (this.vector.y * this.size);
     if (this.mode === 0) {
         if (tombola.chance(1,200)) {
+            this.vector.x += tombola.rangeFloat(-0.8,0.8);
+            this.vector.y += tombola.rangeFloat(-0.8,0.8);
+        }
+    }
+    if (this.mode === 1) {
+        this.start = this.position.clone();
+        if (tombola.chance(1,30)) {
             this.vector.x += tombola.rangeFloat(-1,1);
             this.vector.y += tombola.rangeFloat(-1,1);
         }
     }
-    if (this.mode === 1) {
-        this.vector.x += tombola.rangeFloat(-0.1,0.1);
-        this.vector.y += tombola.rangeFloat(-0.1,0.1);
+    if (this.mode === 2) {
+        this.start = this.position.clone();
+        this.vector.x += tombola.rangeFloat(-0.6,0.6);
+        this.vector.y += tombola.rangeFloat(-0.6,0.6);
 
     }
     this.vector.x = valueInRange(this.vector.x,-3,3);
     this.vector.y = valueInRange(this.vector.y,-3,3);
+
+    this.position.x += (this.vector.x * this.size);
+    this.position.y += (this.vector.y * this.size);
 
 };
 

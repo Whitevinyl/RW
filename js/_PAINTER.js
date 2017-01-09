@@ -9,6 +9,7 @@ function Painter() {
     this.velocityDest = 0;
     this.vector = null;
     this.dragged = false;
+    this.trail = 30;
 }
 var proto = Painter.prototype;
 
@@ -41,6 +42,18 @@ proto.walk = function() {
     this.velocity = lerp(this.velocity,this.velocityDest,10);
     this.velocityDest *= 0.94;
     this.velocityDest = valueInRange(this.velocityDest,0,30);
+
+    if (audioIsPlaying) {
+        this.trail--;
+        if (this.trail<1) {
+            this.trail = 30;
+            if (this.dragged) {
+                this.trail = 5;
+            }
+            trail.burst(this.position,this.vector);
+        }
+    }
+
 };
 
 proto.toMouse = function() {
@@ -66,11 +79,19 @@ proto.burst = function(size) {
 
     // brush //
     if (size>0.5 && tombola.percent(40)) {
-        meterBrush.burst(this.position,this.vector,2,tombola.rangeFloat(0.8,3));
+        var s = size;
+        if (s>3) s = 3;
+        meterBrush.burst(this.position,this.vector,2,s);
     }
 
+    // streaks //
     if (tombola.percent(20)) {
-        streaks.burst(this.position,this.vector,tombola.range(0,1),size);
+        streaks.burst(this.position,this.vector,tombola.range(0,2),size);
+    }
+
+    // splat //
+    if (this.velocity>0.009 || (0.003 && tombola.percent(10))) {
+        splat.burst(this.position,this.vector);
     }
 };
 
