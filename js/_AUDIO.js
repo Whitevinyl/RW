@@ -47,7 +47,7 @@ function setupAudio() {
         var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
         var home = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
         src = special;
-        src = home;
+        //src = home;
         //src = 'https://files.blokdust.io/samples/sequence_fuzz_pad2.wav';
 
         // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
