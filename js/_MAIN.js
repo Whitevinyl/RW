@@ -54,6 +54,7 @@ var painter;
 var strokes;
 var shapes;
 var meterBrush;
+var streaks;
 
 // COOKIE BAR //
 var umgCookieParams = {
@@ -106,6 +107,9 @@ function init() {
     meterBrush = new MeterBrush();
     meterBrush.setup();
 
+    streaks = new Streaks();
+    streaks.setup();
+
     // DONE //
     fonts = new Fonts(['Bodoni:n4,o4'],2,function(){
         setupDrawing();
@@ -148,6 +152,7 @@ function update() {
     strokes.update();
     shapes.update();
     meterBrush.update();
+    streaks.update();
 
     monitorAudio();
     audioKeyFrames();

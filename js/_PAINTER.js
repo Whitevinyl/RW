@@ -63,6 +63,15 @@ proto.burst = function(size) {
     if (this.velocity>0.0032 && tombola.percent(90)) {
         meterBrush.burst(this.position, this.vector, 1, this.velocity * tombola.range(25, 40));
     }
+
+    // brush //
+    if (size>0.5 && tombola.percent(40)) {
+        meterBrush.burst(this.position,this.vector,2,tombola.rangeFloat(0.8,3));
+    }
+
+    if (tombola.percent(20)) {
+        streaks.burst(this.position,this.vector,tombola.range(0,1),size);
+    }
 };
 
 

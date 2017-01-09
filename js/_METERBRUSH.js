@@ -31,9 +31,14 @@ proto.burst = function(position,vector,mode,size) {
     if (mode === 0) {
         v = new Vector(0,1);
         p = position.clone();
-    } else {
+    }
+    if (mode === 1) {
         var r = 11;
         p = new Point(position.x + tombola.rangeFloat(-r*units,r*units),position.y + tombola.rangeFloat(-r*units,r*units));
+    }
+    if (mode === 2) {
+        v.normalise();
+        p = position.clone();
     }
     this.p.push(new MeterP(p,v,size,mode,this));
 };
@@ -51,6 +56,9 @@ function MeterP(position,vector,size,mode,parent) {
     var r = meter*15;
     if (mode===1) {
         r = meter;
+    }
+    if (mode===2) {
+        r = meter*10;
     }
     this.rad = r;
 }
@@ -75,8 +83,12 @@ proto.update = function() {
     this.position.y += (this.vector.y * this.size);
     if (this.mode === 0) {
         this.rad *= 0.95;
-    } else {
-        this.rad *= 1.03;
+    }
+    if (this.mode === 1){
+        this.rad *= 1.02;
+    }
+    if (this.mode === 2) {
+        this.rad *= 0.999;
     }
 
 };
