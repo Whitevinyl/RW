@@ -35,7 +35,8 @@ proto.burst = function(position,vector,mode,size) {
         c = colorBlend(c,lightCol,tombola.range(10,85));
     }
 
-    var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
+    //var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
+    var v = vector;
     var p;
     if (mode === 0) {
         v = new Vector(0,1);
@@ -62,13 +63,20 @@ function MeterP(position,vector,size,mode,parent,color) {
     this.mode = mode;
     this.parent = parent;
     this.color = color;
-    this.life = tombola.range(40,60);
-    var r = meter*15;
+    var r;
+    if (mode===0) {
+        r = meter*15;
+        this.life = tombola.range(30,70);
+    }
     if (mode===1) {
         r = meter*2;
+        this.size = 0.5;
+        this.life = tombola.range(20,50);
     }
     if (mode===2) {
         r = meter*10;
+        this.size = 0.1;
+        this.life = tombola.range(10,40);
     }
     this.rad = r;
 }

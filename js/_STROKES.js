@@ -11,7 +11,7 @@ proto.setup = function() {
 
 
 proto.burst = function(position,vector,size) {
-    var n = tombola.range(3,8);
+    var n = tombola.range(3,11);
     size = 0.6 + (size/2);
     var r = (8*size)*units;
     var r2 = (20*size)*units;
@@ -19,6 +19,16 @@ proto.burst = function(position,vector,size) {
     //var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
     //v.normalise();
     //size *= 3;
+    var c = lightCol;
+
+    if (tombola.percent(20)) {
+        c = colorBlend(paints[0],paints[1],tombola.range(10,90));
+        if (tombola.percent(25)) {
+            c = colorBlend(c,lightCol,tombola.range(10,90));
+        }
+    }
+
+
     var p1 = new Point(position.x + tombola.rangeFloat(-r2,r2), position.y + tombola.rangeFloat(-r2,r2));
 
     for (var i=0; i<n; i++) {
@@ -31,7 +41,7 @@ proto.burst = function(position,vector,size) {
 
         var p = new Point(p1.x + tombola.rangeFloat(-r,r), p1.y + tombola.rangeFloat(-r,r));
 
-        this.p.push( new Brush(p,v,s,this) );
+        this.p.push( new Brush(p,v,s,this,c) );
     }
 };
 
@@ -54,7 +64,7 @@ proto.draw = function(ctx) {
 
 
 
-function Brush(position,vector,size,parent) {
+function Brush(position,vector,size,parent,color) {
     this.position = position;
     this.start = this.position.clone();
     this.vector = vector;
@@ -62,6 +72,7 @@ function Brush(position,vector,size,parent) {
     this.parent = parent;
     this.life = tombola.range(10,40);
     this.scale = tombola.rangeFloat(0.3,2);
+    this.color = color;
 }
 proto = Brush.prototype;
 
@@ -80,6 +91,8 @@ proto.update = function() {
 
 
 proto.draw = function(ctx) {
+
+    color.stroke(ctx,this.color);
     var sx = this.start.x;
     var sy = this.start.y;
     var x = this.position.x;

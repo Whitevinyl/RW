@@ -9,8 +9,7 @@
  * @since Twenty Twelve 1.0
  */
 ?>
-	<footer id="colophon" role="contentinfo">
-	</footer><!-- #colophon -->
+
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

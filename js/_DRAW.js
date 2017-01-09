@@ -63,7 +63,7 @@ function drawStrokes() {
     //color.fillRGBA(ctx[n],bgFill.R*m,bgFill.G*m,bgFill.B*m,1);
     meterBrush.draw(ctx[n]);
     ctx[n].globalAlpha = 1;
-    color.stroke(ctx[n],lightCol);
+    //color.stroke(ctx[n],lightCol);
     strokes.draw(ctx[n]);
 }
 

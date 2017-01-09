@@ -25,11 +25,11 @@ proto.draw = function(ctx) {
 
 
 proto.burst = function(position,vector,mode,size) {
-    var n = tombola.range(1,3);
-    for (var i=0; i<n; i++) {
-        var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
-        this.p.push(new StreakP(position.clone(),v,size,mode,this));
-    }
+    //var n = tombola.range(1,2);
+    //for (var i=0; i<n; i++) {
+        //var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
+        this.p.push(new StreakP(position.clone(),vector.clone(),size,mode,this));
+    //}
 };
 
 
@@ -43,6 +43,7 @@ function StreakP(position,vector,size,mode,parent) {
     this.parent = parent;
     this.life = tombola.range(20,70);
     this.mode = mode;
+    this.count = 100;
 }
 proto = StreakP.prototype;
 
@@ -62,17 +63,19 @@ proto.update = function() {
     }
 
     if (this.mode === 0) {
-        if (tombola.chance(1,200)) {
+        this.count--;
+        if (this.count === 0) {
             this.vector.x += tombola.rangeFloat(-0.8,0.8);
             this.vector.y += tombola.rangeFloat(-0.8,0.8);
+            this.count = 100;
         }
     }
     if (this.mode === 1) {
         this.start = this.position.clone();
-        if (tombola.chance(1,30)) {
+        /*if (tombola.chance(1,30)) {
             this.vector.x += tombola.rangeFloat(-1,1);
             this.vector.y += tombola.rangeFloat(-1,1);
-        }
+        }*/
     }
     if (this.mode === 2) {
         this.start = this.position.clone();

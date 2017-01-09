@@ -69,14 +69,14 @@ proto.burst = function(size) {
     strokes.burst(this.position,this.vector,size);
 
     // drip //
-    if (size>0.5 && tombola.percent(50)) {
+    if (size>0.5 && tombola.percent(60)) {
         meterBrush.burst(this.position,this.vector,0,size*2);
     }
 
     // spatter //
-    if (this.velocity>0.0032 && tombola.percent(90)) {
+    /*if (this.velocity>0.0032 && tombola.percent(90)) {
         meterBrush.burst(this.position, this.vector, 1, this.velocity * tombola.range(25, 40));
-    }
+    }*/
 
     // brush //
     if (size>0.5 && tombola.percent(40)) {
@@ -87,7 +87,7 @@ proto.burst = function(size) {
 
     // streaks //
     if (size>0.5 && tombola.percent(15)) {
-        streaks.burst(this.position,this.vector,tombola.range(0,2),size);
+        streaks.burst(this.position,this.vector,tombola.range(0,1),size);
     }
 
     // splat //
