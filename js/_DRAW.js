@@ -133,7 +133,7 @@ function drawScene() {
 
 
 
-
+        // TT //
         ct.globalAlpha = TTAlpha.a;
         ct.textAlign = 'left';
         ct.font = "400 " + headerType + "px " + font;
@@ -142,9 +142,6 @@ function drawScene() {
 
 
     //drawTest();
-
-
-    //pips.draw();
 }
 
 
@@ -165,7 +162,11 @@ function drawSmallMessaging(ct,u,font) {
         // BOTTOM TEXT //
         ct.textAlign = 'center';
         ct.font = "400 " + bodyType + "px " + font;
-        spacedText(ct,"RICK WAKEMAN",dx,fullY - (45*u),10*u);
+        var space = 10*u;
+        if (device==='mobile') {
+            space = 5*u;
+        }
+        spacedText(ct,"RICK WAKEMAN",dx,fullY - (45*u),space);
         ct.font = "400 oblique " + bodyType + "px " + font;
         ct.fillText("'Piano Portraits'",dx, fullY - (20*u));
 

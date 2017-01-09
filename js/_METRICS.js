@@ -50,8 +50,8 @@ function metrics() {
 
         // TEXT SIZES //
         headerType = Math.round(u/32);
-        midType = Math.round(u/45);
-        bodyType = Math.round(u/60);
+        midType = Math.round(u/47);
+        bodyType = Math.round(u/62);
         dataType = Math.round(u/100);
         subType = Math.round(u/90);
 

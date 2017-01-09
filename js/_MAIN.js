@@ -52,10 +52,8 @@ var lightCol = new RGBA(255,255,255,1);
 var lightishCol = new RGBA(240,240,240,0.9);
 var darkCol = new RGBA(5,5,5,1);
 
-var pips;
 var painter;
 var strokes;
-var shapes;
 var meterBrush;
 var streaks;
 var splat;
@@ -87,6 +85,9 @@ function init() {
         ctx.push(cntx);
     }
 
+    StartAudioContext(Tone.context, '#cnvs0').then(function(){
+        //started
+    });
 
     // SET CANVAS & DRAWING POSITIONS //
     metrics();
@@ -96,17 +97,11 @@ function init() {
     setupAudio();
 
 
-    pips = new Pip();
-    pips.setup();
-
     painter = new Painter();
     painter.setup();
 
     strokes = new Strokes();
     strokes.setup();
-
-    shapes = new Shapes();
-    shapes.setup();
 
     meterBrush = new MeterBrush();
     meterBrush.setup();
@@ -157,10 +152,8 @@ function update() {
         TWEEN.update();
     }
 
-    pips.update();
     painter.walk();
     strokes.update();
-    shapes.update();
     meterBrush.update();
     streaks.update();
 

@@ -65,6 +65,7 @@ proto.toMouse = function() {
 
 
 proto.burst = function(size) {
+    //strokes.burst(this.position,this.vector,size);
     strokes.burst(this.position,this.vector,size);
 
     // drip //

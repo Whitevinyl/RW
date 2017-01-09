@@ -9,7 +9,7 @@ var mids, highs, meter, meterSize;
 var elapsed = 0;
 var tweened = 0;
 
-var mode = 1;
+var mode = 2;
 
 //-------------------------------------------------------------------------------------------
 //  SETUP
@@ -45,11 +45,10 @@ function setupAudio() {
         // SETUP AUDIO PLAYER //
         var src = "audio/lom_192.mp3";
         var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
-        var home = "http://whitevinyldesign.com/rwlom/audio/lom_192.mp3";
-        var home2 = "http://whitevinyldesign.com/rwlom/audio/lom_128.mp3";
-        var home3 = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
+        var home = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
         src = special;
-        src = home3;
+        src = home;
+        //src = 'https://files.blokdust.io/samples/sequence_fuzz_pad2.wav';
 
         // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
         if (mode===0) {
@@ -66,12 +65,7 @@ function setupAudio() {
             });
             //audioElement.crossOrigin = "anonymous";
             audioElement.src=src;
-            //audioElement.load();
             audioElement.pause();
-            /*audioPlayer = context.createMediaElementSource(audioElement);
-             audioPlayer.connect(audioMeter);
-             audioPlayer.connect(audioAnalyser);
-             audioPlayer.connect(context.destination);*/
 
         }
 
@@ -82,14 +76,15 @@ function setupAudio() {
                 audioPlayer.connect(audioMeter);
                 audioPlayer.connect(audioAnalyser);
                 audioPlayer.toMaster();
-                audioPlayer.sync();
-                audioPlayer.start(0);
+                if (mode === 2) {
+                    audioPlayer.sync();
+                    audioPlayer.start("0:0:2");
+                    Tone.Transport.scheduleRepeat(function() {
+                        elapsed = parseInt(Tone.Transport.seconds);
+                    },'2n');
+                }
                 audioLoaded();
             });
-
-            Tone.Transport.scheduleRepeat(function() {
-                elapsed = parseInt(Tone.Transport.seconds);
-            },'2n');
         }
 
     //},500);
@@ -100,7 +95,6 @@ function setupAudio() {
 // WHEN AUDIO HAS LOADED //
 function audioLoaded() {
     audioHasLoaded = true;
-    //startAudio();
 }
 
 
@@ -109,8 +103,11 @@ function stopAudio() {
     audioIsPlaying = false;
     if (mode===0) {
         audioElement.pause();
-    } else {
-        //audioPlayer.stop();
+    }
+    if (mode===1) {
+        audioPlayer.stop();
+    }
+    if (mode===2) {
         Tone.Transport.pause();
     }
 }
@@ -120,9 +117,12 @@ function startAudio() {
     audioIsPlaying = true;
     if (mode===0) {
         audioElement.play();
-    } else {
-        //audioPlayer.start();
-        Tone.Transport.start();
+    }
+    if (mode===1) {
+        audioPlayer.start();
+    }
+    if (mode===2) {
+        Tone.Transport.start("+0.5");
     }
 }
 
@@ -143,8 +143,10 @@ function replay() {
     colorTo(paints[1],65,50,250,1,1); // blue
     toggleMenu();
     toggleButtonText();
-    Tone.Transport.stop();
-    Tone.Transport.seconds = 0;
+    if (mode===2) {
+        Tone.Transport.stop();
+        Tone.Transport.seconds = 0;
+    }
     startAudio();
 }
 

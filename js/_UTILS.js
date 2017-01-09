@@ -91,6 +91,9 @@ function Vector( x, y ) {
     this.x = x || 0;
     this.y = y || 0;
 }
+Vector.prototype.clone = function() {
+    return new Vector(this.x,this.y);
+};
 Vector.prototype.magnitude = function() {
     return Math.sqrt((this.x*this.x) + (this.y*this.y));
 };
