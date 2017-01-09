@@ -134,12 +134,18 @@ function toggleAudio() {
     }
 }
 
-function restart() {
+function replay() {
+    endFrame = false;
     elapsed = 0;
     tweened = 0;
     colorTo(bgFill,30,30,140,1,0.5); // dk blue
     colorTo(paints[0],250,50,75,1,1); // red
     colorTo(paints[1],65,50,250,1,1); // blue
+    toggleMenu();
+    toggleButtonText();
+    Tone.Transport.stop();
+    Tone.Transport.seconds = 0;
+    startAudio();
 }
 
 //-------------------------------------------------------------------------------------------
@@ -272,7 +278,7 @@ function audioKeyFrames() {
         tweened = elapsed;
     }
     if (elapsed===195 && tweened<elapsed && !menuOpen) {
-        toggleMenu();
+        conclusion();
         tweened = elapsed;
     }
 }

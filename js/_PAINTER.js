@@ -85,7 +85,7 @@ proto.burst = function(size) {
     }
 
     // streaks //
-    if (tombola.percent(20)) {
+    if (size>0.5 && tombola.percent(15)) {
         streaks.burst(this.position,this.vector,tombola.range(0,2),size);
     }
 

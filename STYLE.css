@@ -92,6 +92,37 @@ a.button {
     width: 270px;
 }
 
+
+#specialButton {
+    display: block;
+    margin: 6% auto 0 auto;
+    height: 50px;
+    width: 250px;
+    line-height: 50px;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    border-bottom: 3px solid;
+    color: inherit;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+
+    -webkit-transition: width 0.4s;
+    transition: width 0.4s;
+}
+
+a #specialButton {
+    text-decoration: none;
+}
+
+#specialButton:hover {
+    cursor: pointer;
+    width: 270px;
+}
+
+
+
 #legals {
     text-align: center;
     font-size: 13px;

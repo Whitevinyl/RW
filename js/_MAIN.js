@@ -37,6 +37,8 @@ var menuOpen = false;
 var playOver = false;
 var pauseOver = false;
 var menuOver = false;
+var specialButton;
+var endFrame = false;
 
 
 // COLORS //
@@ -84,7 +86,6 @@ function init() {
         canvas.push(cnvs);
         ctx.push(cntx);
     }
-
 
 
     // SET CANVAS & DRAWING POSITIONS //

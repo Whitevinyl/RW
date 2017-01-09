@@ -35,6 +35,12 @@ function setupInteraction(target) {
         mouseRelease();
         touchTakeover = false;
     }, false);
+
+
+    specialButton = document.getElementById('specialButton');
+    specialButton.addEventListener('click',function(event) {
+        specialButtonEvent();
+    }, false);
 }
 
 
@@ -156,5 +162,27 @@ function toggleMenu() {
     } else {
         cardTo(obj,100,0,1,0);
         menuOpen = true;
+    }
+}
+
+function specialButtonEvent() {
+    if (elapsed<200) {
+        toggleMenu();
+    } else {
+        replay();
+    }
+}
+
+function conclusion() {
+    endFrame = true;
+    toggleButtonText();
+    toggleMenu();
+}
+
+function toggleButtonText() {
+    if (endFrame) {
+        specialButton.innerHTML = "Replay";
+    } else {
+        specialButton.innerHTML = "Close X";
     }
 }

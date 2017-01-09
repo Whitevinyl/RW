@@ -65,7 +65,7 @@ function MeterP(position,vector,size,mode,parent,color) {
     this.life = tombola.range(40,60);
     var r = meter*15;
     if (mode===1) {
-        r = meter;
+        r = meter*2;
     }
     if (mode===2) {
         r = meter*10;

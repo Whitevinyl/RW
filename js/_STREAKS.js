@@ -25,7 +25,7 @@ proto.draw = function(ctx) {
 
 
 proto.burst = function(position,vector,mode,size) {
-    var n = tombola.range(1,6);
+    var n = tombola.range(1,3);
     for (var i=0; i<n; i++) {
         var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
         this.p.push(new StreakP(position.clone(),v,size,mode,this));
