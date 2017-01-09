@@ -53,8 +53,15 @@ proto.toMouse = function() {
 
 proto.burst = function(size) {
     strokes.burst(this.position,this.vector,size);
+
+    // drip //
     if (size>0.5 && tombola.percent(50)) {
-        meterBrush.burst(this.position,this.vector,size*2);
+        meterBrush.burst(this.position,this.vector,0,size*2);
+    }
+
+    // spatter //
+    if (this.velocity>0.0032 && tombola.percent(90)) {
+        meterBrush.burst(this.position, this.vector, 1, this.velocity * tombola.range(25, 40));
     }
 };
 

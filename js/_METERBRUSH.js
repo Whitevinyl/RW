@@ -25,23 +25,34 @@ proto.draw = function(ctx) {
     }
 };
 
-proto.burst = function(position,vector,size) {
+proto.burst = function(position,vector,mode,size) {
     var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
-    v.normalise();
-    v = new Vector(0,1);
-    this.p.push(new MeterP(position.clone(),v,size,this));
+    var p;
+    if (mode === 0) {
+        v = new Vector(0,1);
+        p = position.clone();
+    } else {
+        var r = 11;
+        p = new Point(position.x + tombola.rangeFloat(-r*units,r*units),position.y + tombola.rangeFloat(-r*units,r*units));
+    }
+    this.p.push(new MeterP(p,v,size,mode,this));
 };
 
 
 
 
-function MeterP(position,vector,size,parent) {
+function MeterP(position,vector,size,mode,parent) {
     this.position = position;
     this.vector = vector;
     this.size = size;
+    this.mode = mode;
     this.parent = parent;
     this.life = tombola.range(40,60);
-    this.rad = meter*15;
+    var r = meter*15;
+    if (mode===1) {
+        r = meter;
+    }
+    this.rad = r;
 }
 proto = MeterP.prototype;
 
@@ -62,7 +73,12 @@ proto.update = function() {
 
     this.position.x += (this.vector.x * this.size);
     this.position.y += (this.vector.y * this.size);
-    this.rad *= 0.95;
+    if (this.mode === 0) {
+        this.rad *= 0.95;
+    } else {
+        this.rad *= 1.03;
+    }
+
 };
 
 proto.draw = function(ctx) {

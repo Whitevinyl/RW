@@ -89,9 +89,6 @@ function init() {
     // INITIALISE THINGS //
     setupInteraction(canvas[0]);
     setupAudio();
-    setupDrawing();
-
-
 
 
     pips = new Pip();
@@ -110,7 +107,10 @@ function init() {
     meterBrush.setup();
 
     // DONE //
-    fonts = new Fonts(['Bodoni:n4,o4'],2,function(){draw();});
+    fonts = new Fonts(['Bodoni:n4,o4'],2,function(){
+        setupDrawing();
+        draw();
+    });
     fonts.setup();
     //draw();
 }
