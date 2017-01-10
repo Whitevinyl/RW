@@ -9,7 +9,7 @@ var mids, highs, meter, meterSize;
 var elapsed = 0;
 var tweened = 0;
 
-var mode = 2;
+var audioMode = 2;
 
 //-------------------------------------------------------------------------------------------
 //  SETUP
@@ -40,54 +40,49 @@ function setupAudio() {
 
 
 
-    //setTimeout(function() {
+    // SETUP AUDIO PLAYER //
+    var src = "audio/lom_192.mp3";
+    var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_96.mp3";
+    var home = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
+    src = special;
+    src = home;
 
-        // SETUP AUDIO PLAYER //
-        var src = "audio/lom_192.mp3";
-        var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_192.mp3";
-        var home = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
-        src = special;
-        src = home;
-        //src = 'https://files.blokdust.io/samples/sequence_fuzz_pad2.wav';
-
-        // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
-        if (mode===0) {
-            audioElement = document.getElementById("player");
-            audioElement.addEventListener("canplay", function() {
-                if (!audioHasLoaded) {
-                    console.log('can play');
-                    audioLoaded();
-                    audioPlayer = context.createMediaElementSource(audioElement);
-                    audioPlayer.connect(audioMeter);
-                    audioPlayer.connect(audioAnalyser);
-                    audioPlayer.connect(audioEnd);
-                }
-            });
-            //audioElement.crossOrigin = "anonymous";
-            audioElement.src=src;
-            audioElement.pause();
-
-        }
-
-        // JUST WEB AUDIO CONTEXT  (LOADS WHOLE MP3) //
-        else {
-            audioPlayer = new Tone.Player();
-            audioPlayer.load(src,function() {
+    // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
+    if (audioMode===0) {
+        audioElement = document.getElementById("player");
+        audioElement.addEventListener("canplay", function() {
+            if (!audioHasLoaded) {
+                console.log('can play');
+                audioLoaded();
+                audioPlayer = context.createMediaElementSource(audioElement);
                 audioPlayer.connect(audioMeter);
                 audioPlayer.connect(audioAnalyser);
-                audioPlayer.toMaster();
-                if (mode === 2) {
-                    audioPlayer.sync();
-                    audioPlayer.start("0:0:2");
-                    Tone.Transport.scheduleRepeat(function() {
-                        elapsed = parseInt(Tone.Transport.seconds);
-                    },'2n');
-                }
-                audioLoaded();
-            });
-        }
+                audioPlayer.connect(audioEnd);
+            }
+        });
+        //audioElement.crossOrigin = "anonymous";
+        audioElement.src=src;
+        audioElement.pause();
 
-    //},500);
+    }
+
+    // JUST WEB AUDIO CONTEXT  (LOADS WHOLE MP3) //
+    else {
+        audioPlayer = new Tone.Player();
+        audioPlayer.load(src,function() {
+            audioPlayer.connect(audioMeter);
+            audioPlayer.connect(audioAnalyser);
+            audioPlayer.toMaster();
+            if (audioMode === 2) {
+                audioPlayer.sync();
+                audioPlayer.start("0:0:2");
+                Tone.Transport.scheduleRepeat(function() {
+                    elapsed = parseInt(Tone.Transport.seconds);
+                },'2n');
+            }
+            audioLoaded();
+        });
+    }
 
 }
 
@@ -101,13 +96,13 @@ function audioLoaded() {
 function stopAudio() {
     console.log('stopped');
     audioIsPlaying = false;
-    if (mode===0) {
+    if (audioMode===0) {
         audioElement.pause();
     }
-    if (mode===1) {
+    if (audioMode===1) {
         audioPlayer.stop();
     }
-    if (mode===2) {
+    if (audioMode===2) {
         Tone.Transport.pause();
     }
 }
@@ -115,13 +110,13 @@ function stopAudio() {
 function startAudio() {
     console.log('started');
     audioIsPlaying = true;
-    if (mode===0) {
+    if (audioMode===0) {
         audioElement.play();
     }
-    if (mode===1) {
+    if (audioMode===1) {
         audioPlayer.start();
     }
-    if (mode===2) {
+    if (audioMode===2) {
         Tone.Transport.start("+0.5");
     }
 }
@@ -143,11 +138,13 @@ function replay() {
     colorTo(paints[1],65,50,250,1,1); // blue
     toggleMenu();
     toggleButtonText();
-    if (mode===2) {
-        Tone.Transport.stop();
-        Tone.Transport.seconds = 0;
+    if (audioMode===2) {
+        Tone.Transport.stop("+0");
     }
-    startAudio();
+    setTimeout(function(){
+        Tone.Transport.seconds.value = 0;
+        startAudio();
+    },100);
 }
 
 //-------------------------------------------------------------------------------------------
@@ -276,7 +273,7 @@ function audioKeyFrames() {
 
 
     if (elapsed===190 && tweened<elapsed) {
-        colorTo(bgFill,5,5,7,1,5); // end black
+        colorTo(bgFill,5,5,7,1,3); // end black
         tweened = elapsed;
     }
     if (elapsed===195 && tweened<elapsed && !menuOpen) {
@@ -295,20 +292,13 @@ function audioKeyFrames() {
 function monitorAudio() {
     if (audioIsPlaying) {
 
-
+        // frequencies //
         frequencies = audioAnalyser.analyse();
 
-        for (var i=0; i<frequencies.length; i++) {
-            if (frequencies[i]>peaks[i]) {
-                peaks[i] = frequencies[i];
-            }
-            peaks[i] *= 0.99;
-        }
-
-
+        // level //
         var m = audioMeter.value;
 
-
+        // custom //
         var d = (m-meter)*10;
         if (d>0.1) {
             var h = 1 + (frequencies[8]/100);
@@ -319,39 +309,46 @@ function monitorAudio() {
 
             if (g>1) {
                 painter.addVelocity(g/4000);
-                //pips.burst(g);
             }
             if (g1>3) {
                 painter.burst(g1/15);
             }
         }
-
         meter = m;
+    }
+}
 
-        /*if (meter>0.01) {
-            audioLevel = 1 + (meter*0.1);
 
+function extraMonitoring() {
+
+    // peaks //
+    for (var i=0; i<frequencies.length; i++) {
+        if (frequencies[i]>peaks[i]) {
+        peaks[i] = frequencies[i];
         }
-        if (meter>audioMax) {
-            audioMax = meter;
-        }
-        if (meter>0 && meter<audioMin) {
-            audioMin = meter;
-        }
+        peaks[i] *= 0.99;
+    }
 
-        // PEAK LISTEN //
-        if (meter>(peakStrength*1.1)) {
-            peakStrength = meter;
-        }
+    if (meter>0.01) {
+        audioLevel = 1 + (meter*0.1);
+    }
+    if (meter>audioMax) {
+        audioMax = meter;
+    }
+    if (meter>0 && meter<audioMin) {
+        audioMin = meter;
+    }
 
-
-        // PEAK DECAY //
-        if (peakStrength>0.001) {
-            peakStrength *= 0.95;
-        } else {
-            peakStrength = 0;
-        }*/
+    // PEAK LISTEN //
+    if (meter>(peakStrength*1.1)) {
+        peakStrength = meter;
+    }
 
 
+    // PEAK DECAY //
+    if (peakStrength>0.001) {
+        peakStrength *= 0.95;
+    } else {
+        peakStrength = 0;
     }
 }

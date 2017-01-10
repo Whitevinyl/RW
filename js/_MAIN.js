@@ -44,20 +44,16 @@ var endFrame = false;
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
 var bgFill = new RGBA(30,30,140,1);
-var paintCol = new RGBA(250,50,75,1);
 var paints = [new RGBA(250,50,75,1),new RGBA(65,50,250,1)];
 
 var textCol = new RGBA(255,255,255,1);
 var lightCol = new RGBA(255,255,255,1);
-var lightishCol = new RGBA(240,240,240,0.9);
 var darkCol = new RGBA(5,5,5,1);
 
 var painter;
 var strokes;
 var meterBrush;
-var streaks;
 var splat;
-var trail;
 
 // COOKIE BAR //
 var umgCookieParams = {
@@ -106,14 +102,8 @@ function init() {
     meterBrush = new MeterBrush();
     meterBrush.setup();
 
-    streaks = new Streaks();
-    streaks.setup();
-
     splat = new Splat();
     splat.setup();
-
-    trail = new Trail();
-    trail.setup();
 
     // DONE //
     fonts = new Fonts(['Bodoni:n4,o4'],2,function(){
@@ -155,7 +145,6 @@ function update() {
     painter.walk();
     strokes.update();
     meterBrush.update();
-    streaks.update();
 
     monitorAudio();
     audioKeyFrames();

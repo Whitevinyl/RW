@@ -27,30 +27,35 @@ proto.draw = function(ctx) {
 
 proto.burst = function(position,vector,mode,size) {
 
-    var c = tombola.item(paints);
+    /*var c = tombola.item(paints);
     if (tombola.percent(70)) {
         c = colorBlend(paints[0],paints[1],tombola.range(10,90));
     }
     if (tombola.percent(25)) {
         c = colorBlend(c,lightCol,tombola.range(10,85));
+    }*/
+
+    // pick stroke color //
+    var op = tombola.weightedNumber([20,60,20]);
+    var c;
+    switch (op) {
+        case 1:
+            c = tombola.item(paints);
+            break;
+        case 2:
+            c = colorBlend(paints[0],paints[1],tombola.range(10,90));
+            break;
+        case 3:
+            c = colorBlend(colorBlend(paints[0],paints[1],tombola.range(10,90)),lightCol,tombola.range(10,90));
+            break;
     }
 
-    //var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
-    var v = vector;
-    var p;
-    if (mode === 0) {
-        v = new Vector(0,1);
-        p = position.clone();
-    }
-    if (mode === 1) {
-        var r = 11;
-        p = new Point(position.x + tombola.rangeFloat(-r*units,r*units),position.y + tombola.rangeFloat(-r*units,r*units));
-    }
-    if (mode === 2) {
+    var v = new Vector(0,1);
+    if (mode ===1) {
+        v = vector;
         v.normalise();
-        p = position.clone();
     }
-    this.p.push(new MeterP(p,v,size,mode,this,c));
+    this.p.push(new MeterP(position.clone(),v,size,mode,this,c));
 };
 
 
@@ -63,22 +68,15 @@ function MeterP(position,vector,size,mode,parent,color) {
     this.mode = mode;
     this.parent = parent;
     this.color = color;
-    var r;
-    if (mode===0) {
-        r = meter*15;
-        this.life = tombola.range(30,70);
-    }
+    this.rad = meter*15;
+    this.life = tombola.range(30,70);
+
+    // move with stroke //
     if (mode===1) {
-        r = meter*2;
-        this.size = 0.5;
-        this.life = tombola.range(20,50);
-    }
-    if (mode===2) {
-        r = meter*10;
+        this.rad = meter*10;
         this.size = 0.1;
-        this.life = tombola.range(10,40);
+        this.life = Math.round(this.life/2);
     }
-    this.rad = r;
 }
 proto = MeterP.prototype;
 
@@ -102,13 +100,9 @@ proto.update = function() {
     if (this.mode === 0) {
         this.rad *= 0.95;
     }
-    if (this.mode === 1){
-        this.rad *= 1.02;
-    }
-    if (this.mode === 2) {
+    if (this.mode === 1) {
         this.rad *= 0.999;
     }
-
 };
 
 proto.draw = function(ctx) {

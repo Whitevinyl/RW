@@ -55,15 +55,9 @@ function drawBG() {
 function drawStrokes() {
     var n = 1;
     ctx[n].globalAlpha = 0.5;
-    color.fill(ctx[n],paintCol);
-
-    color.stroke(ctx[n],darkCol);
-    streaks.draw(ctx[n]);
-    //var m = 0.7;
-    //color.fillRGBA(ctx[n],bgFill.R*m,bgFill.G*m,bgFill.B*m,1);
     meterBrush.draw(ctx[n]);
+
     ctx[n].globalAlpha = 1;
-    //color.stroke(ctx[n],lightCol);
     strokes.draw(ctx[n]);
 }
 

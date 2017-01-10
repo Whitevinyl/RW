@@ -41,6 +41,19 @@ function setupInteraction(target) {
     specialButton.addEventListener('click',function(event) {
         specialButtonEvent();
     }, false);
+
+
+    // stop scrolling while interacting //
+    window.addEventListener("mousedown", function(event) {dragTest(event);}, false);
+    window.addEventListener("mouseup", function(event) {dragTest(event);}, false);
+    window.addEventListener("touchstart", function(event) {dragTest(event);}, false);
+    window.addEventListener("touchmove", function(event) {dragTest(event);}, false);
+}
+
+function dragTest(event) {
+    if (painter.dragged) {
+        event.preventDefault();
+    }
 }
 
 
@@ -75,6 +88,7 @@ function mousePress() {
     if (TTAlpha.a === 0) {
         painter.dragged = true;
         painter.toMouse();
+        //disableScroll();
     }
 
 }
@@ -84,6 +98,7 @@ function mousePress() {
 function mouseRelease() {
     mouseIsDown = false;
     painter.dragged = false;
+    //enableScroll();
 }
 
 
@@ -166,7 +181,7 @@ function toggleMenu() {
 }
 
 function specialButtonEvent() {
-    if (elapsed<200) {
+    if (elapsed<195) {
         toggleMenu();
     } else {
         replay();
@@ -186,3 +201,4 @@ function toggleButtonText() {
         specialButton.innerHTML = "Close X";
     }
 }
+

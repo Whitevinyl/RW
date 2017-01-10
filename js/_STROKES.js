@@ -15,33 +15,38 @@ proto.burst = function(position,vector,size) {
     size = 0.6 + (size/2);
     var r = (8*size)*units;
     var r2 = (20*size)*units;
-    var s = 1;
-    //var v = new Vector((vector.x + tombola.rangeFloat(-1,1)), (vector.y + tombola.rangeFloat(-1,1)));
-    //v.normalise();
-    //size *= 3;
-    var c = lightCol;
 
-    if (tombola.percent(20)) {
-        c = colorBlend(paints[0],paints[1],tombola.range(10,90));
-        if (tombola.percent(25)) {
-            c = colorBlend(c,lightCol,tombola.range(10,90));
-        }
+
+    // pick stroke color //
+    var op = tombola.weightedNumber([70,20,5,5]);
+    var c;
+    switch (op) {
+        case 1:
+            c = lightCol;
+            break;
+        case 2:
+            c = colorBlend(paints[0],paints[1],tombola.range(10,90));
+            break;
+        case 3:
+            c = colorBlend(colorBlend(paints[0],paints[1],tombola.range(10,90)),lightCol,tombola.range(10,90));
+            break;
+        case 4:
+            c = darkCol;
+            break;
     }
 
-
+    // stroke position //
     var p1 = new Point(position.x + tombola.rangeFloat(-r2,r2), position.y + tombola.rangeFloat(-r2,r2));
 
+    // for each line/bristle of stroke //
     for (var i=0; i<n; i++) {
-        //var v2 = new Vector(v.x + tombola.rangeFloat(-0.15,0.15), v.y + tombola.rangeFloat(-0.15,0.15));
-        //v2.normalise();
+
         var v = vector;
         if (tombola.percent(5)) {
             v = vector.clone();
         }
-
         var p = new Point(p1.x + tombola.rangeFloat(-r,r), p1.y + tombola.rangeFloat(-r,r));
-
-        this.p.push( new Brush(p,v,s,this,c) );
+        this.p.push( new Brush(p,v,1,this,c) );
     }
 };
 

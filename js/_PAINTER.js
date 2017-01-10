@@ -25,25 +25,35 @@ proto.addVelocity = function(v) {
 };
 
 proto.walk = function() {
-    this.index += this.velocity;
 
+    // current position (for calculating vector) //
     var lx = this.position.x;
     var ly = this.position.y;
+
+    // walk the simplex //
+    this.index += this.velocity;
     if (!this.dragged) {
         this.positionDest.x = dx + (this.simplex.noise(this.index,0) * (dx*0.8));
         this.positionDest.y = dy + (this.simplex.noise(0,this.index) * (dy*0.8));
     }
+
+    // move //
     this.position.x = lerp(this.position.x,this.positionDest.x,20);
     this.position.y = lerp(this.position.y,this.positionDest.y,20);
 
+    // finish calculating vector //
     this.vector.x = this.position.x - lx;
     this.vector.y = this.position.y - ly;
 
+
+    // set velocity //
     this.velocity = lerp(this.velocity,this.velocityDest,10);
+
+    // slow Down  //
     this.velocityDest *= 0.94;
     this.velocityDest = valueInRange(this.velocityDest,0,30);
 
-    if (audioIsPlaying) {
+    /*if (audioIsPlaying) {
         this.trail--;
         if (this.trail<1) {
             this.trail = 30;
@@ -52,8 +62,7 @@ proto.walk = function() {
             }
             trail.burst(this.position,this.vector);
         }
-    }
-
+    }*/
 };
 
 proto.toMouse = function() {
@@ -65,7 +74,8 @@ proto.toMouse = function() {
 
 
 proto.burst = function(size) {
-    //strokes.burst(this.position,this.vector,size);
+
+    // main strokes //
     strokes.burst(this.position,this.vector,size);
 
     // drip //
@@ -73,25 +83,15 @@ proto.burst = function(size) {
         meterBrush.burst(this.position,this.vector,0,size*2);
     }
 
-    // spatter //
-    /*if (this.velocity>0.0032 && tombola.percent(90)) {
-        meterBrush.burst(this.position, this.vector, 1, this.velocity * tombola.range(25, 40));
-    }*/
-
     // brush //
     if (size>0.5 && tombola.percent(40)) {
         var s = size;
         if (s>3) s = 3;
-        meterBrush.burst(this.position,this.vector,2,s);
-    }
-
-    // streaks //
-    if (size>0.5 && tombola.percent(15)) {
-        streaks.burst(this.position,this.vector,tombola.range(0,1),size);
+        meterBrush.burst(this.position,this.vector,1,s);
     }
 
     // splat //
-    if (this.velocity>0.009 || (0.003 && tombola.percent(10))) {
+    if (this.velocity>0.009 || (this.velocity>0.004 && tombola.percent(10))) {
         splat.burst(this.position,this.vector);
     }
 };
