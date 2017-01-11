@@ -186,7 +186,7 @@ function audioKeyFrames() {
     }
     if (elapsed===49 && tweened<elapsed) {
         colorTo(bgFill,40,40,70,1,1); // dark
-        colorTo(paints[1],65,50,250,1,1); // blue
+        colorTo(paints[1],55,55,250,1,1); // blue
         tweened = elapsed;
     }
     if (elapsed===57 && tweened<elapsed) {
@@ -225,7 +225,8 @@ function audioKeyFrames() {
     }
     if (elapsed===130 && tweened<elapsed) {
         colorTo(bgFill,50,150,210,1,1); // blue
-        colorTo(paints[0],255,180,60,1,1); // yellow
+        colorTo(paints[0],225,255,60,1,1); // yellow
+        colorTo(paints[1],0,140,255,1,1); // cyan
         tweened = elapsed;
     }
 
@@ -242,6 +243,7 @@ function audioKeyFrames() {
     if (elapsed===151 && tweened<elapsed) {
         colorTo(bgFill,170,165,160,1,2); // cream
         colorTo(paints[0],250,50,75,1,1); // red
+        colorTo(paints[1],55,55,250,1,1); // blue
         tweened = elapsed;
     }
     if (elapsed===161 && tweened<elapsed) {

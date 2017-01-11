@@ -4,9 +4,12 @@ var TTAlpha = new Alpha(0);
 var subAlpha = new Alpha(0);
 var smallAlpha = new Alpha(0);
 var BGAlpha = new Alpha(1);
+var dragAlpha = new Alpha(0);
+
 var TTOffset = new Point(0,0);
 var subOffset = new Point(0,30);
 var playSize = new Point(1,1);
+
 var playLine = 0;
 var pauseLine = 0;
 var menuLine = 16;
@@ -29,9 +32,33 @@ function introOut() {
     alphaTo(subAlpha,0,2);
     alphaTo(BGAlpha,0,2);
     alphaTo(smallAlpha,1,2,2);
+
+    var delay = 10;
+    setTimeout(function() {
+        showDragMessage();
+    },delay*1000);
+
+
     pointTo(playSize,1,0,0.2);
     startAudio();
     fadeOut(ctx[1],bgFill);
+}
+
+function showDragMessage() {
+    if (!painted) {
+        paintMessageOpen = true;
+        alphaTo(dragAlpha,1,2);
+        var delay = 5;
+        setTimeout(function() {
+            hideDragMessage();
+        },delay*1000);
+    }
+}
+
+function hideDragMessage() {
+    if (!painted) {
+        alphaTo(dragAlpha,0,1);
+    }
 }
 
 
@@ -71,10 +98,8 @@ function drawStrokes() {
 
 function drawScene() {
     var u = units;
-    var font = "PT Serif";
-    font = "Playfair Display";
-    font = "Amiri";
-    font = "Bodoni";
+    var font = "Bodoni";
+    var font2 = "Open Sans";
     var ct = ctx[0];
 
     // COMPOSITE //
@@ -90,6 +115,9 @@ function drawScene() {
 
     // SMALL MESSAGING //
     drawSmallMessaging(ct,u,font);
+
+    // DRAG MESSAGE //
+    drawDragMessage(ct,u,font2);
 
 
     // INTRO BG //
@@ -179,23 +207,6 @@ function drawSmallMessaging(ct,u,font) {
         }
         ct.fillRect((30*u) - ((pauseLine/2)*u),45*u,pauseLine*u,2*u);
 
-        // ORDER BTN //
-        /*ct.textAlign = 'center';
-
-         ct.lineWidth = 2*units;
-         var bw = 150*u;
-         var bh = 30*u;
-         var bx = fullX - (20*u) - (bw/2);
-         var by = fullY - (20*u) - (bh/2);
-
-         ct.fillText('Order Now',bx, by + (bodyType*0.35));
-         ct.beginPath();
-         ct.moveTo(bx - (bw/2), by - (bh/2));
-         ct.lineTo(bx - (bw/2), by + (bh/2));
-         ct.lineTo(bx + (bw/2), by + (bh/2));
-         ct.lineTo(bx + (bw/2), by - (bh/2));
-         ct.closePath();
-         ct.stroke();*/
 
         // HAMBURGER //
         if (menuOver && menuLine<24) {
@@ -206,7 +217,60 @@ function drawSmallMessaging(ct,u,font) {
         }
         drawHamburger(ct,fullX - (35*u), fullY - (30*u), 25*u, menuLine*u, 2*u);
     }
+}
 
+
+function drawDragMessage(ct,u,font) {
+    if (dragAlpha.a>0) {
+        ct.globalAlpha = dragAlpha.a;
+        var fontSize = dataType;
+
+        ct.font = "400 " + fontSize + "px " + font;
+        ct.textAlign = 'center';
+        var space = 10*u;
+        if (device==='mobile') {
+            space = 5*u;
+        }
+        //spacedText(ct,"DRAG TO PAINT",dx, dy + (bodyType * 0.3),space);
+        ct.fillText("DRAG TO PAINT",dx, dy + (fontSize * 0.4));
+        //ct.fillText("Drag to Paint",dx, dy + (bodyType * 0.4));
+
+        var rad = (ct.measureText("DRAG TO PAINT").width/2) + 10*u;
+
+        var w = 5*u;
+        var s = 16*u;
+        color.stroke(ct,textCol);
+        ct.lineWidth = 2*u;
+
+        ct.beginPath();
+
+        /*ct.moveTo(dx - s, dy - s + w);
+        ct.lineTo(dx - s, dy - s);
+        ct.lineTo(dx - s + w, dy - s);
+
+        ct.moveTo(dx - s, dy + s - w);
+        ct.lineTo(dx - s, dy + s);
+        ct.lineTo(dx - s + w, dy + s);
+
+        ct.moveTo(dx + s, dy + s - w);
+        ct.lineTo(dx + s, dy + s);
+        ct.lineTo(dx + s - w, dy + s);
+
+        ct.moveTo(dx + s, dy - s + w);
+        ct.lineTo(dx + s, dy - s);
+        ct.lineTo(dx + s - w, dy - s);*/
+
+
+        /*ct.moveTo(dx - s, dy - s);
+        ct.lineTo(dx + s, dy - s);*/
+        /*ct.moveTo(dx - s, dy + s);
+        ct.lineTo(dx + s, dy + s);*/
+
+        ct.arc(dx,dy,rad,0,TAU);
+
+
+        ct.stroke();
+    }
 }
 
 
@@ -260,7 +324,6 @@ function fadeOut(ctx,col) {
 function spacedText(ctx,string,x,y,spacing) {
 
     var chars = string.length;
-    var width = ctx.measureText(string).width;
     var fullWidth = (chars-1) * spacing;
     var charList = [];
     var charWidths = [];

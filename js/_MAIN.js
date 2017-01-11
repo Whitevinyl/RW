@@ -39,12 +39,14 @@ var pauseOver = false;
 var menuOver = false;
 var specialButton;
 var endFrame = false;
+var painted = false;
+var paintMessageOpen = false;
 
 
 // COLORS //
 var bgCols = [new RGBA(5,5,5,1),new RGBA(255,236,88,1)];
 var bgFill = new RGBA(30,30,140,1);
-var paints = [new RGBA(250,50,75,1),new RGBA(65,50,250,1)];
+var paints = [new RGBA(250,50,75,1),new RGBA(55,55,250,1)];
 
 var textCol = new RGBA(255,255,255,1);
 var lightCol = new RGBA(255,255,255,1);

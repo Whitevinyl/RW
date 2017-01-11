@@ -11,14 +11,14 @@ proto.setup = function() {
 
 
 proto.burst = function(position,vector,size) {
-    var n = tombola.range(3,11);
+    var n = tombola.range(4,12);
     size = 0.6 + (size/2);
     var r = (8*size)*units;
     var r2 = (20*size)*units;
 
 
     // pick stroke color //
-    var op = tombola.weightedNumber([70,20,5,5]);
+    var op = tombola.weightedNumber([65,20,5,5,5]);
     var c;
     switch (op) {
         case 1:
@@ -28,9 +28,12 @@ proto.burst = function(position,vector,size) {
             c = colorBlend(paints[0],paints[1],tombola.range(10,90));
             break;
         case 3:
-            c = colorBlend(colorBlend(paints[0],paints[1],tombola.range(10,90)),lightCol,tombola.range(10,90));
+            c = tombola.item(paints);
             break;
         case 4:
+            c = colorBlend(colorBlend(paints[0],paints[1],tombola.range(10,90)),lightCol,tombola.range(10,90));
+            break;
+        case 5:
             c = darkCol;
             break;
     }
@@ -40,13 +43,14 @@ proto.burst = function(position,vector,size) {
 
     // for each line/bristle of stroke //
     for (var i=0; i<n; i++) {
-
+        var m = 0;
         var v = vector;
         if (tombola.percent(5)) {
             v = vector.clone();
+            m = 1;
         }
         var p = new Point(p1.x + tombola.rangeFloat(-r,r), p1.y + tombola.rangeFloat(-r,r));
-        this.p.push( new Brush(p,v,1,this,c) );
+        this.p.push( new Brush(p,v,this,c,m) );
     }
 };
 
@@ -69,15 +73,15 @@ proto.draw = function(ctx) {
 
 
 
-function Brush(position,vector,size,parent,color) {
+function Brush(position,vector,parent,color,mode) {
     this.position = position;
     this.start = this.position.clone();
     this.vector = vector;
-    this.size = size;
     this.parent = parent;
     this.life = tombola.range(10,40);
-    this.scale = tombola.rangeFloat(0.3,2);
+    this.scale = tombola.rangeFloat(0.5,2.3);
     this.color = color;
+    this.mode = mode;
 }
 proto = Brush.prototype;
 
@@ -88,10 +92,19 @@ proto.update = function() {
         this.kill();
         return;
     }
-    var m = this.size;
+
+    // move //
     this.start = this.position.clone();
-    this.position.x += (this.vector.x * m);
-    this.position.y += (this.vector.y * m);
+    this.position.x += this.vector.x;
+    this.position.y += this.vector.y;
+
+    // shrink //
+    if (this.mode === 1) {
+        this.scale *= 0.9;
+    } else {
+        this.scale *= 0.96;
+    }
+
 };
 
 

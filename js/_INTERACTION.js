@@ -87,8 +87,11 @@ function mousePress() {
 
     if (TTAlpha.a === 0) {
         painter.dragged = true;
+        if (paintMessageOpen) {
+            hideDragMessage();
+        }
+        painted = true;
         painter.toMouse();
-        //disableScroll();
     }
 
 }
@@ -98,7 +101,6 @@ function mousePress() {
 function mouseRelease() {
     mouseIsDown = false;
     painter.dragged = false;
-    //enableScroll();
 }
 
 
