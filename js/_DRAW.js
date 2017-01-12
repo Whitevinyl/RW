@@ -10,11 +10,14 @@ var TTOffset = new Point(0,0);
 var subOffset = new Point(0,30);
 var playSize = new Point(1,1);
 
-var playLine = 0;
+var playLine = 34;
 var pauseLine = 0;
 var menuLine = 16;
+var shareLine = 0;
 var bufferNo = 0;
 var bufferCount = 0;
+
+var dragTween;
 
 
 function setupDrawing() {
@@ -47,7 +50,7 @@ function introOut() {
 function showDragMessage() {
     if (!painted) {
         paintMessageOpen = true;
-        alphaTo(dragAlpha,1,2);
+        alphaTo(dragAlpha,1,2,0,dragTween);
         var delay = 5;
         setTimeout(function() {
             hideDragMessage();
@@ -57,7 +60,7 @@ function showDragMessage() {
 
 function hideDragMessage() {
     if (!painted) {
-        alphaTo(dragAlpha,0,1);
+        alphaTo(dragAlpha,0,1,0,dragTween);
     }
 }
 
@@ -114,7 +117,7 @@ function drawScene() {
 
 
     // SMALL MESSAGING //
-    drawSmallMessaging(ct,u,font);
+    drawSmallMessaging(ct,u,font,font2);
 
     // DRAG MESSAGE //
     drawDragMessage(ct,u,font2);
@@ -176,7 +179,7 @@ function drawTest() {
 
 
 
-function drawSmallMessaging(ct,u,font) {
+function drawSmallMessaging(ct,u,font,font2) {
     if (smallAlpha.a>0) {
         ct.globalAlpha = smallAlpha.a;
 
@@ -216,6 +219,10 @@ function drawSmallMessaging(ct,u,font) {
             menuLine -= 1;
         }
         drawHamburger(ct,fullX - (35*u), fullY - (30*u), 25*u, menuLine*u, 2*u);
+
+
+        // SHARE //
+        drawShare(ct,u,font2);
     }
 }
 
@@ -227,13 +234,7 @@ function drawDragMessage(ct,u,font) {
 
         ct.font = "400 " + fontSize + "px " + font;
         ct.textAlign = 'center';
-        var space = 10*u;
-        if (device==='mobile') {
-            space = 5*u;
-        }
-        //spacedText(ct,"DRAG TO PAINT",dx, dy + (bodyType * 0.3),space);
         ct.fillText("DRAG TO PAINT",dx, dy + (fontSize * 0.4));
-        //ct.fillText("Drag to Paint",dx, dy + (bodyType * 0.4));
 
         var rad = (ct.measureText("DRAG TO PAINT").width/2) + 10*u;
 
@@ -243,36 +244,45 @@ function drawDragMessage(ct,u,font) {
         ct.lineWidth = 2*u;
 
         ct.beginPath();
-
-        /*ct.moveTo(dx - s, dy - s + w);
-        ct.lineTo(dx - s, dy - s);
-        ct.lineTo(dx - s + w, dy - s);
-
-        ct.moveTo(dx - s, dy + s - w);
-        ct.lineTo(dx - s, dy + s);
-        ct.lineTo(dx - s + w, dy + s);
-
-        ct.moveTo(dx + s, dy + s - w);
-        ct.lineTo(dx + s, dy + s);
-        ct.lineTo(dx + s - w, dy + s);
-
-        ct.moveTo(dx + s, dy - s + w);
-        ct.lineTo(dx + s, dy - s);
-        ct.lineTo(dx + s - w, dy - s);*/
-
-
-        /*ct.moveTo(dx - s, dy - s);
-        ct.lineTo(dx + s, dy - s);*/
-        /*ct.moveTo(dx - s, dy + s);
-        ct.lineTo(dx + s, dy + s);*/
-
         ct.arc(dx,dy,rad,0,TAU);
-
-
         ct.stroke();
     }
 }
 
+function drawShare(ct,u,font) {
+    var fontSize = dataType;
+    var cx = (60*u);
+    var cy = (fullY - (25*u));
+
+    if (device=='mobile') {
+        cx = (30*u);
+        cy = (fullY - (30*u));
+    }
+    else {
+        ct.textAlign = 'left';
+        ct.font = "400 " + fontSize + "px " + font;
+        ct.fillText("SHARE",(20*u), fullY - (22*u));
+    }
+
+    var s = (5*u);
+    ct.lineWidth = 2*u;
+
+    ct.beginPath();
+    ct.moveTo(cx - s,cy);
+    ct.lineTo(cx + s,cy);
+    ct.moveTo(cx,cy - s);
+    ct.lineTo(cx,cy + s);
+    ct.stroke();
+
+    if (shareOver && shareLine<16) {
+        shareLine += 2;
+    }
+    if (!shareOver && shareLine>0) {
+        shareLine -= 2;
+    }
+    ct.fillRect(cx - ((shareLine/2)*u), cy + (10*u), shareLine*u, 2*u);
+
+}
 
 
 function drawData(cxa) {
@@ -363,6 +373,7 @@ function drawHamburger(ct,x,y,w,h,t) {
     ct.fillRect(x - (w/2), y - (t/2), w, t);
     ct.fillRect(x - (w/2), y + (h/2) - t, w, t);
 }
+
 
 function drawBuffer(ct,x,y,s,t) {
 

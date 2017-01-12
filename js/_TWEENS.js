@@ -4,10 +4,7 @@ function cardTo(obj,from,to,t,delay) {
     t = t || 1;
     delay = delay || 0;
 
-
-
     var cPos = {y: from };
-
     var tween = new TWEEN.Tween(cPos);
     tween.to({ y: to  }, t*1000);
     tween.delay(delay*1000);
@@ -21,13 +18,20 @@ function cardTo(obj,from,to,t,delay) {
 }
 
 
-function alphaTo(obj,d,t,delay) {
+function alphaTo(obj,d,t,delay,name) {
     t = t || 1;
     delay = delay || 0;
 
     var cPos = {a: obj.a };
 
+    if (name===dragTween) {
+        TWEEN.remove(dragTween);
+    }
+
     var tween = new TWEEN.Tween(cPos);
+    if (name===dragTween) {
+        dragTween = tween;
+    }
     tween.to({ a: d  }, t*1000);
     tween.delay(delay*1000);
     tween.start();

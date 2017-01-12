@@ -41,11 +41,10 @@ function setupAudio() {
 
 
     // SETUP AUDIO PLAYER //
-    var src = "audio/lom_192.mp3";
     var special = "http://umgstore.edgesuite.net/UMC/wakeman/lom_96.mp3";
     var home = "http://whitevinyldesign.com/rwlom/audio/lom_96.mp3";
-    src = special;
-    src = home;
+    var src = special;
+    //src = home;
 
     // AUDIO ELEMENT WITH WEB AUDIO SOURCE //
     if (audioMode===0) {

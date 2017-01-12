@@ -43,6 +43,12 @@ function setupInteraction(target) {
     }, false);
 
 
+    shareButton = document.getElementById('shareButton');
+    shareButton.addEventListener('click',function(event) {
+        toggleShare();
+    }, false);
+
+
     // stop scrolling while interacting //
     window.addEventListener("mousedown", function(event) {dragTest(event);}, false);
     window.addEventListener("mouseup", function(event) {dragTest(event);}, false);
@@ -82,6 +88,11 @@ function mousePress() {
 
     if (menuOver) {
         toggleMenu();
+        return;
+    }
+
+    if (shareOver) {
+        toggleShare();
         return;
     }
 
@@ -139,8 +150,11 @@ function rolloverCheck() {
     if (TTAlpha.a === 0) {
         pauseOver = hudCheck(10*u,10*u, 40*u, 60*u);
         menuOver = hudCheck(fullX - (60*u),fullY - (50*u), 60*u, 50*u);
+        shareOver = hudCheck(0,fullY - (50*u), 65*u, 50*u);
     } else {
         pauseOver = false;
+        menuOver = false;
+        shareOver = false;
     }
 
 }
@@ -179,6 +193,18 @@ function toggleMenu() {
     } else {
         cardTo(obj,100,0,1,0);
         menuOpen = true;
+    }
+}
+
+function toggleShare() {
+    var obj = document.getElementById('share').style;
+    if (shareOpen) {
+        cardTo(obj,0,100,0.6,0);
+        shareOpen = false;
+
+    } else {
+        cardTo(obj,100,0,1,0);
+        shareOpen = true;
     }
 }
 

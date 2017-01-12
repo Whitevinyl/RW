@@ -33,11 +33,14 @@ var touchTakeover = false;
 var touch;
 var mouseIsDown = false;
 var menuOpen = false;
+var shareOpen = false;
 
 var playOver = false;
 var pauseOver = false;
 var menuOver = false;
+var shareOver = false;
 var specialButton;
+var shareButton;
 var endFrame = false;
 var painted = false;
 var paintMessageOpen = false;
